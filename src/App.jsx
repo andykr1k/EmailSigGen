@@ -97,7 +97,7 @@ function App() {
 
   <div style="margin-bottom: 8px;">
     <a href="https://www.division7.xyz" target="_blank">
-      <img src="https://www.division7.xyz/wp-content/uploads/2025/06/d7-logo-email-footer-128w.png" alt="d7" border="0" width="64" height="91" style="width: 64px; height: 91px; display: block;">
+      <img src="https://www.division7.xyz/wp-content/uploads/2025/06/d7-logo-email-footer-128w.png" alt="d7" border="0" width="91" height="91" style="width: 91px; height: 91px; display: block;">
     </a>
   </div>
 

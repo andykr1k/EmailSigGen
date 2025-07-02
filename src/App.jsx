@@ -96,40 +96,38 @@ function App() {
   <body style="text-size-adjust: none !important; -ms-text-size-adjust: none !important; -webkit-text-size-adjust: none !important; margin: 0; padding: 8px;">
   
     <div style="margin-bottom: 8px;">
-      <a href="https://www.division7.xyz" target="_blank" style="text-decoration: none; color: rgb(163, 84, 64);">
+      <a href="https://www.division7.xyz" target="_blank" style="text-decoration: none; color: rgb(172, 79, 58);">
         <img src="https://www.division7.xyz/wp-content/uploads/2025/06/d7-logo-email-footer-128w.png" alt="d7" border="0" width="80" height="91" style="width: 80px; height: 91px; display: block;">
       </a>
     </div>
   
     <div class="name">
-      <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(163, 84, 64); margin: 0;">
+      <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(172, 79, 58); margin: 0;">
         <span style="font-weight: bold;">${name}</span>
       </p>
     </div>
   
     <div class="title" style="margin-bottom: 4px;">
-      <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(163, 84, 64); margin: 0;">${title}</p>
+      <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(172, 79, 58); margin: 0;">${title}</p>
     </div>
   
     <div class="phone" style="margin-bottom: 8px;">
-      <p style="font-family: Helvetica, Arial, sans-serif; font-size: 10px; color: rgb(163, 84, 64); margin: 0;">${phone} m</p>
+      <p style="font-family: Helvetica, Arial, sans-serif; font-size: 10px; color: rgb(172, 79, 58); margin: 0;">${phone} m</p>
     </div>
   
     <div class="contact-info" style="margin-bottom: 8px;">
-      <span style="display: block; width: 315px; border-top: 1px solid rgb(163, 84, 64); margin-bottom: 4px; padding-bottom: 4px;"></span>
+      <span style="display: block; width: 315px; border-top: 1px solid rgb(172, 79, 58); margin-bottom: 4px; padding-bottom: 4px;"></span>
       ${addresses
         .map(
           (item) => `
-      <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(163, 84, 64); margin: 0; padding-bottom: 4px;">${item.text}</p>`
+      <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(172, 79, 58); margin: 0; padding-bottom: 4px;">${item.text}</p>`
         )
         .join("")}
-      <span style="display: block; width: 315px; border-top: 1px solid rgb(163, 84, 64); margin-top: 4px;"></span>
+      <span style="display: block; width: 315px; border-top: 1px solid rgb(172, 79, 58); margin-top: 4px;"></span>
     </div>
   
     <div class="website" style="margin-bottom: 8px;">
-      <a href="https://www.division7.xyz" target="_blank" style="text-decoration: none; color: rgb(163, 84, 64); font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0; display: block;">
-        division7.xyz
-      </a>
+      <p style="text-decoration: none; color: rgb(172, 79, 58); font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0; display: block;">division7.xyz</p>
     </div>
   
     <div class="ad-age" style="line-height: 12px;">

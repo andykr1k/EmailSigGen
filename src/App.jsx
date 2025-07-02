@@ -128,7 +128,7 @@ function App() {
 
     <div class="website" style="margin-bottom: 8px; text-decoration: none;">
       <a href="division7.xyz" target="_blank" style="color: rgb(172, 79, 58); font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0; display: block; text-decoration: none;">
-        <span style="text-decoration: none;">division7.xyz</span>
+        <span style="text-decoration: none;">division7.xyz &nbsp;</span>
       </a>
     </div>
 

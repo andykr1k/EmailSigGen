@@ -125,13 +125,13 @@ function App() {
         .join("")}
       <span style="display: block; width: 315px; border-top: 1px solid rgb(172, 79, 58); margin-top: 4px;"></span>
     </div>
-  
-  <div class="website" style="margin-bottom: 8px;">
-    <a href="https://www.division7.xyz" target="_blank" style="color: rgb(163, 84, 64); font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0; display: block; text-decoration: none;">
-      <span style="text-decoration: none;">division7.xyz</span>
-    </a>
-  </div>
-  
+
+    <div class="website" style="margin-bottom: 8px;">
+      <a href="https://www.division7.xyz" target="_blank" style="color: rgb(172, 79, 58); font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0; display: block; text-decoration: none;">
+        <span style="text-decoration: none;">division7.xyz</span>
+      </a>
+    </div>
+
     <div class="ad-age" style="line-height: 12px;">
       <p style="margin: 0; font-size: 9px; font-family: Helvetica, Arial, sans-serif; color: rgb(172, 79, 58);">
         Ad Age Creativity – 2024 Standout Production Company

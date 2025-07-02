@@ -88,70 +88,68 @@ function App() {
   };
 
   const signatureHTML = `<!doctype html>
-<html lang="en-US">
-<head>
-  <meta charset="UTF-8">
-  <title>DIVISION7</title>
-</head>
-<body style="text-size-adjust: none !important; -ms-text-size-adjust: none !important; -webkit-text-size-adjust: none !important; margin: 0; padding: 8px;">
-
-  <div style="margin-bottom: 8px;">
-    <a href="https://www.division7.xyz" target="_blank">
-      <img src="https://www.division7.xyz/wp-content/uploads/2025/06/d7-logo-email-footer-128w.png" alt="d7" border="0" width="91" height="91" style="width: 91px; height: 91px; display: block;">
-    </a>
-  </div>
-
-  <div class="name">
-    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(163, 84, 64); margin: 0;">
-      <span style="font-weight: bold;">${name}</span>
-    </p>
-  </div>
-
-  <div class="title" style="margin-bottom: 4px;">
-    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(163, 84, 64); margin: 0;">${title}</p>
-  </div>
-
-  <div class="phone" style="margin-bottom: 8px;">
-    <p style="font-family: Helvetica, Arial, sans-serif; font-size: 10px; color: rgb(163, 84, 64); margin: 0;">${phone} m</p>
-  </div>
-
-  <div class="contact-info" style="margin-bottom: 8px;">
-    <span style="display: block; width: 315px; border-top: 1px solid rgb(163, 84, 64); margin-bottom: 4px; padding-bottom: 4px;"></span>
-    ${addresses
-      .map(
-        (item) => `
-    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(163, 84, 64); margin: 0; padding-bottom: 4px;">${item.text}</p>`
-      )
-      .join("")}
-    <span style="display: block; width: 315px; border-top: 1px solid rgb(163, 84, 64); margin-top: 4px;"></span>
-  </div>
-
-  <div class="website" style="margin-bottom: 8px;">
-    <a href="https://www.division7.xyz" target="_blank" style="text-decoration: none;">
+  <html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <title>DIVISION7</title>
+  </head>
+  <body style="text-size-adjust: none !important; -ms-text-size-adjust: none !important; -webkit-text-size-adjust: none !important; margin: 0; padding: 8px;">
+  
+    <div style="margin-bottom: 8px;">
+      <a href="https://www.division7.xyz" target="_blank" style="text-decoration: none; color: rgb(163, 84, 64);">
+        <img src="https://www.division7.xyz/wp-content/uploads/2025/06/d7-logo-email-footer-128w.png" alt="d7" border="0" width="80" height="91" style="width: 80px; height: 91px; display: block;">
+      </a>
+    </div>
+  
+    <div class="name">
       <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(163, 84, 64); margin: 0;">
-        division7.xyz
+        <span style="font-weight: bold;">${name}</span>
       </p>
-    </a>
-  </div>
-
-  <div class="ad-age" style="line-height: 12px;">
-    <p style="margin: 0; font-size: 9px; font-family: Helvetica, Arial, sans-serif; color: rgb(172, 79, 58);">
-      Ad Age Creativity – 2024 Standout Production Company
-    </p>
-    <p style="margin: 0; font-size: 9px; font-family: Helvetica, Arial, sans-serif; color: rgb(172, 79, 58);">
-      Ad Age Creativity – 2023 A-List Production Company
-    </p>
-    <p style="margin: 0; font-size: 9px; font-family: Helvetica, Arial, sans-serif; color: rgb(172, 79, 58);">
-      Ad Age Creativity – 2022 Standout Production Company
-    </p>
-    <p style="margin: 0; font-size: 9px; font-family: Helvetica, Arial, sans-serif; color: rgb(172, 79, 58);">
-      Ad Age Creativity – 2020 Production Company to Watch
-    </p>
-  </div>
-
-</body>
-</html>`;
-
+    </div>
+  
+    <div class="title" style="margin-bottom: 4px;">
+      <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(163, 84, 64); margin: 0;">${title}</p>
+    </div>
+  
+    <div class="phone" style="margin-bottom: 8px;">
+      <p style="font-family: Helvetica, Arial, sans-serif; font-size: 10px; color: rgb(163, 84, 64); margin: 0;">${phone} m</p>
+    </div>
+  
+    <div class="contact-info" style="margin-bottom: 8px;">
+      <span style="display: block; width: 315px; border-top: 1px solid rgb(163, 84, 64); margin-bottom: 4px; padding-bottom: 4px;"></span>
+      ${addresses
+        .map(
+          (item) => `
+      <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(163, 84, 64); margin: 0; padding-bottom: 4px;">${item.text}</p>`
+        )
+        .join("")}
+      <span style="display: block; width: 315px; border-top: 1px solid rgb(163, 84, 64); margin-top: 4px;"></span>
+    </div>
+  
+    <div class="website" style="margin-bottom: 8px;">
+      <a href="https://www.division7.xyz" target="_blank" style="text-decoration: none; color: rgb(163, 84, 64); font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0; display: block;">
+        division7.xyz
+      </a>
+    </div>
+  
+    <div class="ad-age" style="line-height: 12px;">
+      <p style="margin: 0; font-size: 9px; font-family: Helvetica, Arial, sans-serif; color: rgb(172, 79, 58);">
+        Ad Age Creativity – 2024 Standout Production Company
+      </p>
+      <p style="margin: 0; font-size: 9px; font-family: Helvetica, Arial, sans-serif; color: rgb(172, 79, 58);">
+        Ad Age Creativity – 2023 A-List Production Company
+      </p>
+      <p style="margin: 0; font-size: 9px; font-family: Helvetica, Arial, sans-serif; color: rgb(172, 79, 58);">
+        Ad Age Creativity – 2022 Standout Production Company
+      </p>
+      <p style="margin: 0; font-size: 9px; font-family: Helvetica, Arial, sans-serif; color: rgb(172, 79, 58);">
+        Ad Age Creativity – 2020 Production Company to Watch
+      </p>
+    </div>
+  
+  </body>
+  </html>`;
+  
   const handleDownload = () => {
     const blob = new Blob([signatureHTML], { type: "text/html" });
     const url = URL.createObjectURL(blob);

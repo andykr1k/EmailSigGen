@@ -178,17 +178,31 @@ function App() {
   const copyToClipboard = () => {
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = signatureHTML;
+    tempDiv.style.position = "fixed";
+    tempDiv.style.pointerEvents = "none";
+    tempDiv.style.opacity = 0;
+    document.body.appendChild(tempDiv);
 
-    const textContent = tempDiv.innerText;
+    const range = document.createRange();
+    range.selectNodeContents(tempDiv);
 
-    navigator.clipboard
-      .writeText(textContent)
-      .then(() => {
-        alert("Plain text copied to clipboard!");
-      })
-      .catch(() => {
-        alert("Could not copy plain text. Please use the download option.");
-      });
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    try {
+      const successful = document.execCommand("copy");
+      if (successful) {
+        alert("HTML signature copied to clipboard!");
+      } else {
+        alert("Copy failed. Please try manually.");
+      }
+    } catch (err) {
+      alert("Copy failed. Please try manually.");
+    }
+
+    selection.removeAllRanges();
+    document.body.removeChild(tempDiv);
   };
 
   return (

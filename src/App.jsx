@@ -131,7 +131,11 @@ function App() {
     </div>
 
     <div class="website" style="margin-bottom: 8px; text-decoration: none;">
-      <a href="#" style="text-decoration: none; color: rgb(172, 79, 58); font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0; display: block;" data-mce-href="#" data-mce-style="text-decoration: none; color: #ac4f3a; font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0; display: block;">division7&#8203.xyz</a>
+          <a href="https://division7.xyz" style="color:rgb(255,255,255)">
+  <span style="text-decoration: none; color: rgb(172, 79, 58); font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0; display: block;" data-mce-href="#" data-mce-style="text-decoration: none; color: #ac4f3a; font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0; display: block;">
+    division7&#8203.xyz
+  </span>
+</a>
     </div>
 
 

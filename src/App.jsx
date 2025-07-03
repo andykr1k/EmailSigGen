@@ -94,7 +94,11 @@ function App() {
     <title>DIVISION7</title>
   </head>
   <body style="text-size-adjust: none !important; -ms-text-size-adjust: none !important; -webkit-text-size-adjust: none !important; margin: 0; padding: 8px;">
-  
+
+    <div style="margin-bottom: 4px;">
+      <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(172, 79, 58); margin: 0;">&nbsp;</p>
+    </div>
+
     <div style="margin-bottom: 8px;">
       <a href="https://www.division7.xyz" target="_blank" style="text-decoration: none; color: rgb(172, 79, 58);">
         <img src="https://www.division7.xyz/wp-content/uploads/2025/06/d7-logo-email-footer-128w.png" alt="d7" border="0" width="80" height="91" style="width: 80px; height: 91px; display: block;">
@@ -127,9 +131,7 @@ function App() {
     </div>
 
     <div class="website" style="margin-bottom: 8px; text-decoration: none;">
-      <p style="color: rgb(172, 79, 58); font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0; display: block; text-decoration: none;">
-        division7&#8203.xyz
-      </p>
+      <a href="#" style="text-decoration: none; color: rgb(172, 79, 58); font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0; display: block;" data-mce-href="#" data-mce-style="text-decoration: none; color: #ac4f3a; font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0; display: block;">division7&#8203.xyz</a>
     </div>
 
 

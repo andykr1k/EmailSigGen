@@ -164,7 +164,7 @@ function App() {
     setShowModal(true);
   };
 
-  const copyToClipboard = () => {
+  const copyToClipboardSourceCode = () => {
     navigator.clipboard
       .writeText(signatureHTML)
       .then(() => {
@@ -172,6 +172,22 @@ function App() {
       })
       .catch(() => {
         alert("Could not copy to clipboard. Please use the download option.");
+      });
+  };
+
+  const copyToClipboard = () => {
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = signatureHTML;
+
+    const textContent = tempDiv.innerText;
+
+    navigator.clipboard
+      .writeText(textContent)
+      .then(() => {
+        alert("Plain text copied to clipboard!");
+      })
+      .catch(() => {
+        alert("Could not copy plain text. Please use the download option.");
       });
   };
 
@@ -275,13 +291,19 @@ function App() {
             onClick={handleDownload}
             className="flex-1 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
-            Download HTML
+            Generate Signature
+          </button>
+          <button
+            onClick={copyToClipboardSourceCode}
+            className="flex-1 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+          >
+            Source Code
           </button>
           <button
             onClick={copyToClipboard}
             className="flex-1 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
           >
-            Copy HTML
+            Copy Signature
           </button>
         </div>
       </div>

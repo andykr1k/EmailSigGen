@@ -427,7 +427,7 @@ function App() {
               chosenSignatureType === "smuggler" ? "bg-blue-600" : ""
             }`}
           >
-            <p className="text-white">Smuggler</p>
+            <p className="text-white">SMUGGLER</p>
           </button>
           <button
             onClick={() => setChosenSignatureType("d7")}

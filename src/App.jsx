@@ -1,11 +1,12 @@
 import { useState } from "react";
 
 function App() {
-  const [name, setName] = useState("Dan Kelley");
-  const [title, setTitle] = useState("Producer");
-  const [phone, setPhone] = useState("+1 310 993 8741");
+  const [name, setName] = useState("XXXXX XXXXXXX");
+  const [title, setTitle] = useState("XXXXXXX");
+  const [phone, setPhone] = useState("+X XXX XXX XXXX");
   const [showModal, setShowModal] = useState(false);
-
+  const [showPhoneNumber, setShowPhoneNumber] = useState(true);
+  const [chosenSignatureType, setChosenSignatureType] = useState("d7");
   const [addresses, setAddresses] = useState([
     {
       id: "1",
@@ -87,7 +88,70 @@ function App() {
     }
   };
 
-  const signatureHTML = `<!doctype html>
+  const smuggler_signatureHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>SMUGGLER</title>
+</head>
+<body style="margin: .5; padding: .5;">
+
+<table cellpadding="0" cellspacing="0" style="margin: 0; font-family: Poppins, Century Gothic, Arial, sans-serif;">
+    <tr>
+        <td>
+            <table bgcolor="#FFFFFF" cellpadding="0" cellspacing="0" style="padding: .5px; margin: 1;">
+                <tr>
+                    <td>
+                        <a href="https://smugglersite.com" target="_blank"><img src="https://smugglersite.com/email-signatures/SMUGGLER24.png" alt="SMUGGLER" width="170" height="23" style="border: 0;"></a>
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td style="padding: 4px 0px 3px 0px;">
+                        <p style="margin: 0.5px; color: #A28D6F; font-size: 10pt; font-weight: 700;"><span style="color: #A28D6F;">${name}</span></p>
+                        <p style="margin: 0.5px; color: #A28D6F; font-size: 10pt; font-weight: 700;"><span style="color: #A28D6F;">${title}</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="line-height:10px; padding-top:4px; padding-bottom:4px;">
+                        <p style="margin: 0.5px; color: #A28D6F; font-size: 6pt; font-weight: 600; text-transform: uppercase;"><span style="color: #A28D6F; text-transform: uppercase;">NYC </span><span style="color: #C7BBA9; font-weight: 600; text-transform: uppercase;">38 W 21st Street, New York, NY 10010 +1 212 337 3327</span></a></p>
+                        <p style="margin: 0.5px; color: #A28D6F; font-size: 6pt; font-weight: 600; text-transform: uppercase;"><span style="color: #A28D6F; text-transform: uppercase;">LA </span><span style="color: #C7BBA9; font-weight: 600; text-transform: uppercase;">823 Seward Street, Los Angeles, CA 90038 +1 323 817 3300</span></a></p>
+                        <p style="margin: 0.5px; color: #A28D6F; font-size: 6pt; font-weight: 600; text-transform: uppercase;"><span style="color: #A28D6F; text-transform: uppercase;">LDN </span><span style="color: #C7BBA9; font-weight: 600; text-transform: uppercase;">2-3 Bourlet Close, London, W1W 7BQ +44 (0) 2076 367 665</span></a></p>
+                        <p style="margin: 0.5px; color: #A28D6F; font-size: 6pt; font-weight: 600; text-transform: uppercase;"><span style="color: #A28D6F; text-transform: uppercase;">MIAMI </span><span style="color: #C7BBA9; font-weight: 600; text-transform: uppercase;">323 NE 59th Terrace, Miami, FL 33137</span></a></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="line-height:10px; padding-top:4px; padding-bottom:4px;">
+                        <p style="margin: 0.5px; color: #A28D6F; font-size: 6pt; font-weight: 600; text-transform: uppercase;"><span style="color: #A28D6F; text-transform: uppercase;">British Arrows </span><span style="color: #C7BBA9; font-weight: 600; text-transform: uppercase;">2025 Production Company of the Year</span></a></p>
+                        <p style="margin: 0.5px; color: #A28D6F; font-size: 6pt; font-weight: 600; text-transform: uppercase;"><span style="color: #A28D6F; text-transform: uppercase;">Ad Age </span><span style="color: #C7BBA9; font-weight: 600; text-transform: uppercase;">2025, 2024, 2020, 2017, 2010, 2007, 2004 Prod Co  of the Year</span></a></p>
+                        <p style="margin: 0.5px; color: #A28D6F; font-size: 6pt; font-weight: 600; text-transform: uppercase;"><span style="color: #A28D6F; text-transform: uppercase;">CANNES LIONS </span><span style="color: #C7BBA9; font-weight: 600; text-transform: uppercase;">2024, 2022, 2015, 2011, 2007 PALME D'OR & GRAND PRIX</span></a></p>
+                        <p style="margin: 0.5px; color: #A28D6F; font-size: 6pt; font-weight: 600; text-transform: uppercase;"><span style="color: #A28D6F; text-transform: uppercase;">Ciclope </span><span style="color: #C7BBA9; font-weight: 600; text-transform: uppercase;">2024, 2023, 2017 Prod Co of the Year & Grand Prix</span></a></p>
+                        <p style="margin: 0.5px; color: #A28D6F; font-size: 6pt; font-weight: 600; text-transform: uppercase;"><span style="color: #A28D6F; text-transform: uppercase;">Emmy Award </span><span style="color: #C7BBA9; font-weight: 600; text-transform: uppercase;">2022, 2020, 2017 Outstanding Commercial</span></a></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a style="color: #fff; text-decoration: none;" href="https://smugglersite.com" target="_blank"><span style="color: #A28D6F; font-size: 6pt; font-weight: 700; text-transform: uppercase;">SMUGGLERSITE.COM</span></a>
+                        <span style="color: #A28D6F; font-size: 6pt; font-weight: 700; text-transform: uppercase;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <a style="color: #fff; text-decoration: none;" href="https://www.instagram.com/smugglersite/" target="_blank"><span style="color: #A28D6F; font-size: 6pt; font-weight: 700; text-transform: uppercase;">INSTAGRAM</span></a>
+                        <span style="color: #A28D6F; font-size: 6pt; font-weight: 700; text-transform: uppercase;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <a style="color: #fff; text-decoration: none;" href="https://twitter.com/smugglersite" target="_blank"><span style="color: #A28D6F; font-size: 6pt; font-weight: 700; text-transform: uppercase;">X (TWITTER)</span></a>
+                        <span style="color: #A28D6F; font-size: 6pt; font-weight: 700; text-transform: uppercase;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        <a style="color: #fff; text-decoration: none;" href="https://www.linkedin.com/company/smuggler/" target="_blank"><span style="color: #A28D6F; font-size: 6pt; font-weight: 700; text-transform: uppercase;">LINKEDIN</span></a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>`;
+
+  const rosario_signatureHTML = ``;
+
+  const d7_signatureHTML = `<!doctype html>
   <html lang="en-US">
   <head>
     <meta charset="UTF-8">
@@ -115,9 +179,13 @@ function App() {
       <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(172, 79, 58); margin: 0;">${title}</p>
     </div>
   
-    <div class="phone" style="margin-bottom: 8px;">
+    ${
+      showPhoneNumber
+        ? `    <div class="phone" style="margin-bottom: 8px;">
       <p style="font-family: Helvetica, Arial, sans-serif; font-size: 10px; color: rgb(172, 79, 58); margin: 0;">${phone} m</p>
-    </div>
+    </div>`
+        : ``
+    }
   
     <div class="contact-info" style="margin-bottom: 8px;">
       <span style="display: block; width: 315px; border-top: 1px solid rgb(172, 79, 58); margin-bottom: 4px; padding-bottom: 4px;"></span>
@@ -158,7 +226,16 @@ function App() {
   </html>`;
 
   const handleDownload = () => {
-    const blob = new Blob([signatureHTML], { type: "text/html" });
+    const blob = new Blob(
+      [
+        chosenSignatureType === "d7"
+          ? d7_signatureHTML
+          : chosenSignatureType === "smuggler"
+          ? smuggler_signatureHTML
+          : rosario_signatureHTML,
+      ],
+      { type: "text/html" }
+    );
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -170,7 +247,13 @@ function App() {
 
   const copyToClipboardSourceCode = () => {
     navigator.clipboard
-      .writeText(signatureHTML)
+      .writeText(
+        chosenSignatureType === "d7"
+          ? d7_signatureHTML
+          : chosenSignatureType === "smuggler"
+          ? smuggler_signatureHTML
+          : rosario_signatureHTML
+      )
       .then(() => {
         alert("HTML copied to clipboard!");
       })
@@ -181,7 +264,12 @@ function App() {
 
   const copyToClipboard = () => {
     const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = signatureHTML;
+    tempDiv.innerHTML =
+      chosenSignatureType === "d7"
+        ? d7_signatureHTML
+        : chosenSignatureType === "smuggler"
+        ? smuggler_signatureHTML
+        : rosario_signatureHTML;
     tempDiv.style.position = "fixed";
     tempDiv.style.pointerEvents = "none";
     tempDiv.style.opacity = 0;
@@ -234,7 +322,17 @@ function App() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Phone</label>
+          <div className="flex flex-row justify-between">
+            <label className="block text-sm font-medium mb-1">Phone</label>
+            <button
+              onClick={() => setShowPhoneNumber(!showPhoneNumber)}
+              className=""
+            >
+              <p className="block text-sm font-medium mb-1 text-blue-600">
+                {showPhoneNumber ? "Hide" : "Show"}
+              </p>
+            </button>
+          </div>
           <input
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
@@ -312,7 +410,7 @@ function App() {
             Download HTML
           </button>
           <button
-            onClick={copyToClipboard}
+            onClick={copyToClipboardSourceCode}
             className="flex-1 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
           >
             Copy Signature
@@ -321,8 +419,44 @@ function App() {
       </div>
 
       {/* Right side: Preview */}
-      <div className="w-full lg:w-2/3 border p-4 bg-white overflow-auto rounded">
-        <div dangerouslySetInnerHTML={{ __html: signatureHTML }} />
+      <div className="w-full lg:w-2/3 p-4 space-y-3">
+        <div className="grid grid-cols-3 w-full text-center bg-blue-600/50 rounded-xl border">
+          <button
+            onClick={() => setChosenSignatureType("smuggler")}
+            className={`p-3 rounded-xl ${
+              chosenSignatureType === "smuggler" ? "bg-blue-600" : ""
+            }`}
+          >
+            <p className="text-white">Smuggler</p>
+          </button>
+          <button
+            onClick={() => setChosenSignatureType("d7")}
+            className={`p-3 rounded-2xl ${
+              chosenSignatureType === "d7" ? "bg-blue-600" : ""
+            }`}
+          >
+            <p className="text-white">d7</p>
+          </button>
+          <button
+            onClick={() => setChosenSignatureType("rosario")}
+            className={`p-3 rounded-2xl ${
+              chosenSignatureType === "rosario" ? "bg-blue-600" : ""
+            }`}
+          >
+            <p className="text-white">Rosario</p>
+          </button>
+        </div>
+        <div
+          className="w-full border p-4 bg-white overflow-auto rounded"
+          dangerouslySetInnerHTML={{
+            __html:
+              chosenSignatureType === "d7"
+                ? d7_signatureHTML
+                : chosenSignatureType === "smuggler"
+                ? smuggler_signatureHTML
+                : rosario_signatureHTML,
+          }}
+        />
       </div>
 
       {/* Modal */}

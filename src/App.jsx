@@ -94,7 +94,11 @@ function App() {
     <title>DIVISION7</title>
   </head>
   <body style="text-size-adjust: none !important; -ms-text-size-adjust: none !important; -webkit-text-size-adjust: none !important; margin: 0; padding: 8px;">
-  
+
+    <div style="margin-bottom: 4px;">
+      <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(172, 79, 58); margin: 0;">&nbsp;</p>
+    </div>
+
     <div style="margin-bottom: 8px;">
       <a href="https://www.division7.xyz" target="_blank" style="text-decoration: none; color: rgb(172, 79, 58);">
         <img src="https://www.division7.xyz/wp-content/uploads/2025/06/d7-logo-email-footer-128w.png" alt="d7" border="0" width="80" height="91" style="width: 80px; height: 91px; display: block;">
@@ -125,11 +129,16 @@ function App() {
         .join("")}
       <span style="display: block; width: 315px; border-top: 1px solid rgb(172, 79, 58); margin-top: 4px;"></span>
     </div>
-  
-    <div class="website" style="margin-bottom: 8px;">
-      <p style="text-decoration: none; color: rgb(172, 79, 58); font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0; display: block;">division7.xyz</p>
+
+    <div class="website" style="margin-bottom: 8px; text-decoration: none;">
+          <a href="https://division7.xyz" style="color:rgb(255,255,255)">
+  <span style="text-decoration: none; color: rgb(172, 79, 58); font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0; display: block;" data-mce-href="#" data-mce-style="text-decoration: none; color: #ac4f3a; font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0; display: block;">
+    division7&#8203.xyz
+  </span>
+</a>
     </div>
-  
+
+
     <div class="ad-age" style="line-height: 12px;">
       <p style="margin: 0; font-size: 9px; font-family: Helvetica, Arial, sans-serif; color: rgb(172, 79, 58);">
         Ad Age Creativity – 2024 Standout Production Company
@@ -147,7 +156,7 @@ function App() {
   
   </body>
   </html>`;
-  
+
   const handleDownload = () => {
     const blob = new Blob([signatureHTML], { type: "text/html" });
     const url = URL.createObjectURL(blob);
@@ -159,7 +168,7 @@ function App() {
     setShowModal(true);
   };
 
-  const copyToClipboard = () => {
+  const copyToClipboardSourceCode = () => {
     navigator.clipboard
       .writeText(signatureHTML)
       .then(() => {
@@ -168,6 +177,36 @@ function App() {
       .catch(() => {
         alert("Could not copy to clipboard. Please use the download option.");
       });
+  };
+
+  const copyToClipboard = () => {
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = signatureHTML;
+    tempDiv.style.position = "fixed";
+    tempDiv.style.pointerEvents = "none";
+    tempDiv.style.opacity = 0;
+    document.body.appendChild(tempDiv);
+
+    const range = document.createRange();
+    range.selectNodeContents(tempDiv);
+
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    try {
+      const successful = document.execCommand("copy");
+      if (successful) {
+        alert("HTML signature copied to clipboard!");
+      } else {
+        alert("Copy failed. Please try manually.");
+      }
+    } catch (err) {
+      alert("Copy failed. Please try manually.");
+    }
+
+    selection.removeAllRanges();
+    document.body.removeChild(tempDiv);
   };
 
   return (
@@ -267,16 +306,23 @@ function App() {
 
         <div className="flex gap-2">
           <button
+<<<<<<< HEAD
             onClick={handleDownload}
             className="flex-1 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
           >
             Generate Signature
           </button>
           <button
+=======
+>>>>>>> refs/remotes/origin/main
             onClick={copyToClipboard}
-            className="flex-1 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+            className="flex-1 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
           >
+<<<<<<< HEAD
             Source Code
+=======
+            Copy Signature
+>>>>>>> refs/remotes/origin/main
           </button>
         </div>
       </div>

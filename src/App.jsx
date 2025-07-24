@@ -112,6 +112,12 @@ function App() {
                     <td style="padding: 4px 0px 3px 0px;">
                         <p style="margin: 0.5px; color: #A28D6F; font-size: 10pt; font-weight: 700;"><span style="color: #A28D6F;">${name}</span></p>
                         <p style="margin: 0.5px; color: #A28D6F; font-size: 10pt; font-weight: 700;"><span style="color: #A28D6F;">${title}</span></p>
+                        ${
+                          showPhoneNumber
+                            ? `<p style="margin: 0.5px; color: #A28D6F; font-size: 10pt; font-weight: 700;"><span style="color: #A28D6F; font-size: 6pt; font-weight: 700;">${phone} m</span></p>`
+                            : ``
+                        }
+                        
                     </td>
                 </tr>
                 <tr>

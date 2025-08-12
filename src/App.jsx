@@ -8,7 +8,7 @@ function App() {
   const [showPhoneNumber, setShowPhoneNumber] = useState(true);
   const [showTitle, setShowTitle] = useState(true);
   const [chosenSignatureType, setChosenSignatureType] = useState("d7");
-  const [addresses, setAddresses] = useState([
+  const [d7Addresses, setD7Addresses] = useState([
     {
       id: "1",
       text: "823 Seward Street, Los Angeles, CA 90038 | +1 323 894 6800",
@@ -23,32 +23,37 @@ function App() {
     },
   ]);
 
-  const [draggedIndex, setDraggedIndex] = useState(null);
+  const [smugglerAddresses, setSmugglerAddresses] = useState([
+    {
+      id: "1",
+      city: "NYC",
+      text: "38 W 21st Street, New York, NY 10010 +1 212 337 3327",
+    },
+    {
+      id: "2",
+      city: "LA",
+      text: "823 Seward Street, Los Angeles, CA 90038 +1 323 817 3300",
+    },
+    {
+      id: "3",
+      city: "LDN",
+      text: "2-3 Bourlet Close, London, W1W 7BQ +44 (0) 2076 367 665",
+    },
+    { id: "4", city: "MIAMI", text: "323 NE 59th Terrace, Miami, FL 33137" },
+  ]);
+  const [currentAddresses, setCurrentAddresses] =
+    chosenSignatureType === "d7"
+      ? [d7Addresses, setD7Addresses]
+      : [smugglerAddresses, setSmugglerAddresses];
 
-  const handleDragStart = (e, index) => {
-    setDraggedIndex(index);
-    e.dataTransfer.effectAllowed = "move";
-  };
+  const placeholderText =
+    chosenSignatureType === "d7"
+      ? "Enter D7 address format (e.g., Street, City, ZIP)"
+      : chosenSignatureType === "smuggler"
+      ? "Enter Smuggler address format (e.g., PO Box / Customs Code)"
+      : "Enter address";
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = "move";
-  };
-
-  const handleDrop = (e, dropIndex) => {
-    e.preventDefault();
-    if (draggedIndex === null || draggedIndex === dropIndex) return;
-
-    const newAddresses = [...addresses];
-    const draggedItem = newAddresses[draggedIndex];
-    newAddresses.splice(draggedIndex, 1);
-    newAddresses.splice(dropIndex, 0, draggedItem);
-
-    setAddresses(newAddresses);
-    setDraggedIndex(null);
-  };
-
-  const moveAddressUp = (index) => {
+  const moveAddressUp = (index, addresses, setAddresses) => {
     if (index === 0) return;
     const newAddresses = [...addresses];
     [newAddresses[index - 1], newAddresses[index]] = [
@@ -58,7 +63,7 @@ function App() {
     setAddresses(newAddresses);
   };
 
-  const moveAddressDown = (index) => {
+  const moveAddressDown = (index, addresses, setAddresses) => {
     if (index === addresses.length - 1) return;
     const newAddresses = [...addresses];
     [newAddresses[index], newAddresses[index + 1]] = [
@@ -68,24 +73,20 @@ function App() {
     setAddresses(newAddresses);
   };
 
-  const editAddress = (index, newText) => {
+  const editAddress = (index, newText, addresses, setAddresses) => {
     const newAddresses = [...addresses];
     newAddresses[index].text = newText;
     setAddresses(newAddresses);
   };
 
-  const addAddress = () => {
-    const newAddress = {
-      id: Date.now().toString(),
-      text: "New Address | Phone",
-    };
+  const addAddress = (addresses, setAddresses) => {
+    const newAddress = { id: Date.now().toString(), text: "New Address" };
     setAddresses([...addresses, newAddress]);
   };
 
-  const removeAddress = (index) => {
+  const removeAddress = (index, addresses, setAddresses) => {
     if (addresses.length > 1) {
-      const newAddresses = addresses.filter((_, i) => i !== index);
-      setAddresses(newAddresses);
+      setAddresses(addresses.filter((_, i) => i !== index));
     }
   };
 
@@ -128,10 +129,15 @@ function App() {
                 </tr>
                 <tr>
                     <td style="line-height:10px; padding-top:4px; padding-bottom:4px;">
-                        <p style="margin: 0.5px; color: #A28D6F; font-size: 6pt; font-weight: 600; text-transform: uppercase;"><span style="color: #A28D6F; text-transform: uppercase;">NYC </span><span style="color: #C7BBA9; font-weight: 600; text-transform: uppercase;">38 W 21st Street, New York, NY 10010 +1 212 337 3327</span></a></p>
-                        <p style="margin: 0.5px; color: #A28D6F; font-size: 6pt; font-weight: 600; text-transform: uppercase;"><span style="color: #A28D6F; text-transform: uppercase;">LA </span><span style="color: #C7BBA9; font-weight: 600; text-transform: uppercase;">823 Seward Street, Los Angeles, CA 90038 +1 323 817 3300</span></a></p>
-                        <p style="margin: 0.5px; color: #A28D6F; font-size: 6pt; font-weight: 600; text-transform: uppercase;"><span style="color: #A28D6F; text-transform: uppercase;">LDN </span><span style="color: #C7BBA9; font-weight: 600; text-transform: uppercase;">2-3 Bourlet Close, London, W1W 7BQ +44 (0) 2076 367 665</span></a></p>
-                        <p style="margin: 0.5px; color: #A28D6F; font-size: 6pt; font-weight: 600; text-transform: uppercase;"><span style="color: #A28D6F; text-transform: uppercase;">MIAMI </span><span style="color: #C7BBA9; font-weight: 600; text-transform: uppercase;">323 NE 59th Terrace, Miami, FL 33137</span></a></p>
+                        ${smugglerAddresses
+                          .map(
+                            (item) => `
+  <p style="margin:0.5px; color:#A28D6F; font-size:6pt; font-weight:600; text-transform:uppercase;">
+    <span style="color:#C7BBA9;"><span style="color: #A28D6F; text-transform: uppercase;">${item.city} </span>${item.text}</span>
+  </p>
+`
+                          )
+                          .join("")}
                     </td>
                 </tr>
                 <tr>
@@ -206,7 +212,7 @@ function App() {
   
     <div class="contact-info" style="margin-bottom: 8px;">
       <span style="display: block; width: 315px; border-top: 1px solid rgb(172, 79, 58); margin-bottom: 4px; padding-bottom: 4px;"></span>
-      ${addresses
+      ${d7Addresses
         .map(
           (item) => `
       <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(172, 79, 58); margin: 0; padding-bottom: 4px;">${item.text}</p>`
@@ -374,55 +380,142 @@ function App() {
               Add Address
             </button>
           </div>
-
-          <div className="space-y-2">
-            {addresses.map((item, index) => (
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            {currentAddresses.map((item, index) => (
               <div
-                key={item.id}
-                draggable
-                onDragStart={(e) => handleDragStart(e, index)}
-                onDragOver={handleDragOver}
-                onDrop={(e) => handleDrop(e, index)}
-                className={`border rounded bg-white shadow-sm cursor-move ${
-                  draggedIndex === index ? "opacity-50" : ""
-                }`}
+                key={item.id || index}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  background: "#f5f5f5",
+                  padding: "8px",
+                  borderRadius: "4px",
+                }}
               >
-                <div className="p-3">
+                {chosenSignatureType === "smuggler" && (
                   <textarea
-                    value={item.text}
-                    onChange={(e) => editAddress(index, e.target.value)}
-                    className="w-full text-sm border-0 resize-none focus:ring-0 p-0"
-                    rows="2"
+                    value={item?.city}
+                    placeholder={placeholderText}
+                    onChange={(e) => {
+                      const updated = [...currentAddresses];
+                      updated[index].city = e.target.value;
+                      setCurrentAddresses(updated);
+                    }}
+                    style={{
+                      marginRight: "8px",
+                      resize: "none",
+                      padding: "4px",
+                      fontSize: "14px",
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                    }}
                   />
-                  <div className="flex justify-between items-center">
-                    <div className="flex gap-1">
-                      <button
-                        onClick={() => moveAddressUp(index)}
-                        disabled={index === 0}
-                        className="px-2 py-1 text-xs bg-gray-200 rounded disabled:opacity-50 hover:bg-gray-300"
-                      >
-                        ↑
-                      </button>
-                      <button
-                        onClick={() => moveAddressDown(index)}
-                        disabled={index === addresses.length - 1}
-                        className="px-2 py-1 text-xs bg-gray-200 rounded disabled:opacity-50 hover:bg-gray-300"
-                      >
-                        ↓
-                      </button>
-                    </div>
-                    {addresses.length > 1 && (
-                      <button
-                        onClick={() => removeAddress(index)}
-                        className="px-2 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600"
-                      >
-                        Remove
-                      </button>
-                    )}
-                  </div>
+                )}
+                <textarea
+                  value={item.text}
+                  placeholder={placeholderText}
+                  onChange={(e) => {
+                    const updated = [...currentAddresses];
+                    updated[index].text = e.target.value;
+                    setCurrentAddresses(updated);
+                  }}
+                  style={{
+                    flex: 1,
+                    marginRight: "8px",
+                    resize: "none",
+                    padding: "4px",
+                    fontSize: "14px",
+                    border: "1px solid #ccc",
+                    borderRadius: "4px",
+                  }}
+                />
+                {/* Move Up/Down buttons */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "4px",
+                  }}
+                >
+                  <button
+                    onClick={() =>
+                      moveAddressUp(
+                        index,
+                        currentAddresses,
+                        setCurrentAddresses
+                      )
+                    }
+                    disabled={index === 0}
+                    style={{
+                      background: "#6c757d",
+                      color: "white",
+                      border: "none",
+                      padding: "2px 6px",
+                      borderRadius: "4px",
+                      cursor: index === 0 ? "not-allowed" : "pointer",
+                    }}
+                  >
+                    ↑
+                  </button>
+                  <button
+                    onClick={() =>
+                      moveAddressDown(
+                        index,
+                        currentAddresses,
+                        setCurrentAddresses
+                      )
+                    }
+                    disabled={index === currentAddresses.length - 1}
+                    style={{
+                      background: "#6c757d",
+                      color: "white",
+                      border: "none",
+                      padding: "2px 6px",
+                      borderRadius: "4px",
+                      cursor:
+                        index === currentAddresses.length - 1
+                          ? "not-allowed"
+                          : "pointer",
+                    }}
+                  >
+                    ↓
+                  </button>
                 </div>
+                {/* Remove button */}
+                <button
+                  onClick={() =>
+                    removeAddress(index, currentAddresses, setCurrentAddresses)
+                  }
+                  style={{
+                    background: "red",
+                    color: "white",
+                    border: "none",
+                    padding: "4px 8px",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    marginLeft: "8px",
+                  }}
+                >
+                  ✕
+                </button>
               </div>
             ))}
+
+            {/* Add Address button */}
+            <button
+              onClick={() => addAddress(currentAddresses, setCurrentAddresses)}
+              style={{
+                background: "#007bff",
+                color: "white",
+                border: "none",
+                padding: "6px 12px",
+                borderRadius: "4px",
+                cursor: "pointer",
+                alignSelf: "flex-start",
+              }}
+            >
+              + Add Address
+            </button>
           </div>
         </div>
 

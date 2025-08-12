@@ -6,6 +6,7 @@ function App() {
   const [phone, setPhone] = useState("+X XXX XXX XXXX");
   const [showModal, setShowModal] = useState(false);
   const [showPhoneNumber, setShowPhoneNumber] = useState(true);
+  const [showTitle, setShowTitle] = useState(true);
   const [chosenSignatureType, setChosenSignatureType] = useState("d7");
   const [addresses, setAddresses] = useState([
     {
@@ -111,10 +112,15 @@ function App() {
                 <tr>
                     <td style="padding: 4px 0px 3px 0px;">
                         <p style="margin: 0.5px; color: #A28D6F; font-size: 10pt; font-weight: 700;"><span style="color: #A28D6F;">${name}</span></p>
-                        <p style="margin: 0.5px; color: #A28D6F; font-size: 10pt; font-weight: 700;"><span style="color: #A28D6F;">${title}</span></p>
+                        ${
+                          showTitle
+                            ? `<p style="margin: 0.5px; color: #A28D6F; font-size: 10pt; font-weight: 700;"><span style="color: #A28D6F;">${title}</span></p>`
+                            : ``
+                        }
+                        
                         ${
                           showPhoneNumber
-                            ? `<p style="margin: 0.5px; color: #A28D6F; font-size: 10pt; font-weight: 700;"><span style="color: #A28D6F; font-size: 6pt; font-weight: 700;">${phone} m</span></p>`
+                            ? `<p style="margin: 0.5px; color: #A28D6F; font-size: 10pt; font-weight: 700;"><span style="color: #A28D6F; font-size: 6pt; font-weight: 700;">MOBILE ${phone}</span></p>`
                             : ``
                         }
                         
@@ -181,9 +187,14 @@ function App() {
       </p>
     </div>
   
-    <div class="title" style="margin-bottom: 4px;">
+    ${
+      showTitle
+        ? `    <div class="title" style="margin-bottom: 4px;">
       <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(172, 79, 58); margin: 0;">${title}</p>
-    </div>
+    </div>`
+        : ``
+    }
+
   
     ${
       showPhoneNumber
@@ -319,7 +330,14 @@ function App() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Title</label>
+          <div className="flex flex-row justify-between">
+            <label className="block text-sm font-medium mb-1">Title</label>
+            <button onClick={() => setShowTitle(!showTitle)} className="">
+              <p className="block text-sm font-medium mb-1 text-blue-600">
+                {showTitle ? "Hide" : "Show"}
+              </p>
+            </button>
+          </div>
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}

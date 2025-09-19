@@ -183,7 +183,7 @@ function App() {
            border="0" 
            width="160" 
            height="120" 
-     style="width: 240px; height: 91px; display: block; filter: invert(1);">
+     style="width: 240px; height: 91px; display: block; filter: invert(1); clip-path: inset(20px 10px 20px 10px); margin: -10px">
     </a>
   </div>
 
@@ -194,15 +194,15 @@ function App() {
   </div>
 
   ${
-     showTitle
-       ? `
+    showTitle
+      ? `
   <div class="title" style="margin-bottom: 4px;">
     <p style="font-family: Arial, Helvetica, sans-serif; font-size: 18px; margin: 0;">
       ${title}
     </p>
   </div>`
-       : ""
-   }
+      : ""
+  }
 
    ${
      showPhoneNumber

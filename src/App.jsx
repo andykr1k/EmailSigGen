@@ -167,7 +167,75 @@ function App() {
 </body>
 </html>`;
 
-  const rosario_signatureHTML = ``;
+  const rosario_signatureHTML = `<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>525 Rosario</title>
+</head>
+<body style="text-size-adjust: none !important; -ms-text-size-adjust: none !important; -webkit-text-size-adjust: none !important; margin: 0; padding: 8px;">
+
+  <!-- Logo -->
+  <div style="">
+    <a href="https://www.division7.xyz" target="_blank" style="text-decoration: none;">
+      <img src="https://images.squarespace-cdn.com/content/v1/66e7ad88c261d32ef5a7004f/31cca9ad-7049-4733-ae6f-8884e82f2ed4/525+Rosario+Logo+pdf+white+v3.png?format=2500w" 
+           alt="525ROSARIO" 
+           border="0" 
+           width="160" 
+           height="120" 
+     style="width: 240px; height: 91px; display: block; filter: invert(1);">
+    </a>
+  </div>
+
+  <div class="name">
+    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 20px; margin: 0;">
+      <span style="font-weight: bold;">${name}</span>
+    </p>
+  </div>
+
+  ${
+     showTitle
+       ? `
+  <div class="title" style="margin-bottom: 4px;">
+    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 18px; margin: 0;">
+      ${title}
+    </p>
+  </div>`
+       : ""
+   }
+
+   ${
+     showPhoneNumber
+       ? `
+  <div class="phone" style="margin-bottom: 8px;">
+    <p style="font-family: Helvetica, Arial, sans-serif; font-size: 14px; margin: 0;">
+      MOBILE ${phone}
+    </p>
+  </div>`
+       : ""
+   }
+
+  <!-- Links -->
+  <div style="display: flex; gap: 10px;">
+    <div class="website">
+      <a href="https://525rosario.com" style="text-decoration: none; color:rgb(255,255,255);">
+        <span style="color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0;">
+          525ROSARIO&#8203;.COM
+        </span>
+      </a>
+    </div>
+
+    <div class="website">
+      <a href="https://division7.xyz" style="text-decoration: none; color:rgb(255,255,255);">
+        <span style="color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0;">
+          INSTAGRAM
+        </span>
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>`;
 
   const d7_signatureHTML = `<!doctype html>
   <html lang="en-US">
@@ -370,38 +438,54 @@ function App() {
           />
         </div>
 
-        <div>
-          <div className="flex justify-between items-center mb-2">
-            <label className="block text-sm font-medium">Addresses</label>
-            <button
-              onClick={addAddress}
-              className="px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700"
+        {chosenSignatureType !== "rosario" && (
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="block text-sm font-medium">Addresses</label>
+            </div>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "8px" }}
             >
-              Add Address
-            </button>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            {currentAddresses.map((item, index) => (
-              <div
-                key={item.id || index}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  background: "#f5f5f5",
-                  padding: "8px",
-                  borderRadius: "4px",
-                }}
-              >
-                {chosenSignatureType === "smuggler" && (
+              {currentAddresses.map((item, index) => (
+                <div
+                  key={item.id || index}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    background: "#f5f5f5",
+                    padding: "8px",
+                    borderRadius: "4px",
+                  }}
+                >
+                  {chosenSignatureType === "smuggler" && (
+                    <textarea
+                      value={item?.city}
+                      placeholder={placeholderText}
+                      onChange={(e) => {
+                        const updated = [...currentAddresses];
+                        updated[index].city = e.target.value;
+                        setCurrentAddresses(updated);
+                      }}
+                      style={{
+                        marginRight: "8px",
+                        resize: "none",
+                        padding: "4px",
+                        fontSize: "14px",
+                        border: "1px solid #ccc",
+                        borderRadius: "4px",
+                      }}
+                    />
+                  )}
                   <textarea
-                    value={item?.city}
+                    value={item.text}
                     placeholder={placeholderText}
                     onChange={(e) => {
                       const updated = [...currentAddresses];
-                      updated[index].city = e.target.value;
+                      updated[index].text = e.target.value;
                       setCurrentAddresses(updated);
                     }}
                     style={{
+                      flex: 1,
                       marginRight: "8px",
                       resize: "none",
                       padding: "4px",
@@ -410,114 +494,102 @@ function App() {
                       borderRadius: "4px",
                     }}
                   />
-                )}
-                <textarea
-                  value={item.text}
-                  placeholder={placeholderText}
-                  onChange={(e) => {
-                    const updated = [...currentAddresses];
-                    updated[index].text = e.target.value;
-                    setCurrentAddresses(updated);
-                  }}
-                  style={{
-                    flex: 1,
-                    marginRight: "8px",
-                    resize: "none",
-                    padding: "4px",
-                    fontSize: "14px",
-                    border: "1px solid #ccc",
-                    borderRadius: "4px",
-                  }}
-                />
-                {/* Move Up/Down buttons */}
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "4px",
-                  }}
-                >
+                  {/* Move Up/Down buttons */}
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: "4px",
+                    }}
+                  >
+                    <button
+                      onClick={() =>
+                        moveAddressUp(
+                          index,
+                          currentAddresses,
+                          setCurrentAddresses
+                        )
+                      }
+                      disabled={index === 0}
+                      style={{
+                        background: "#6c757d",
+                        color: "white",
+                        border: "none",
+                        padding: "2px 6px",
+                        borderRadius: "4px",
+                        cursor: index === 0 ? "not-allowed" : "pointer",
+                      }}
+                    >
+                      ↑
+                    </button>
+                    <button
+                      onClick={() =>
+                        moveAddressDown(
+                          index,
+                          currentAddresses,
+                          setCurrentAddresses
+                        )
+                      }
+                      disabled={index === currentAddresses.length - 1}
+                      style={{
+                        background: "#6c757d",
+                        color: "white",
+                        border: "none",
+                        padding: "2px 6px",
+                        borderRadius: "4px",
+                        cursor:
+                          index === currentAddresses.length - 1
+                            ? "not-allowed"
+                            : "pointer",
+                      }}
+                    >
+                      ↓
+                    </button>
+                  </div>
+                  {/* Remove button */}
                   <button
                     onClick={() =>
-                      moveAddressUp(
+                      removeAddress(
                         index,
                         currentAddresses,
                         setCurrentAddresses
                       )
                     }
-                    disabled={index === 0}
                     style={{
-                      background: "#6c757d",
+                      background: "red",
                       color: "white",
                       border: "none",
-                      padding: "2px 6px",
+                      padding: "4px 8px",
                       borderRadius: "4px",
-                      cursor: index === 0 ? "not-allowed" : "pointer",
+                      cursor: "pointer",
+                      marginLeft: "8px",
                     }}
                   >
-                    ↑
-                  </button>
-                  <button
-                    onClick={() =>
-                      moveAddressDown(
-                        index,
-                        currentAddresses,
-                        setCurrentAddresses
-                      )
-                    }
-                    disabled={index === currentAddresses.length - 1}
-                    style={{
-                      background: "#6c757d",
-                      color: "white",
-                      border: "none",
-                      padding: "2px 6px",
-                      borderRadius: "4px",
-                      cursor:
-                        index === currentAddresses.length - 1
-                          ? "not-allowed"
-                          : "pointer",
-                    }}
-                  >
-                    ↓
+                    ✕
                   </button>
                 </div>
-                {/* Remove button */}
-                <button
-                  onClick={() =>
-                    removeAddress(index, currentAddresses, setCurrentAddresses)
-                  }
-                  style={{
-                    background: "red",
-                    color: "white",
-                    border: "none",
-                    padding: "4px 8px",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                    marginLeft: "8px",
-                  }}
-                >
-                  ✕
-                </button>
-              </div>
-            ))}
+              ))}
 
-            {/* Add Address button */}
-            <button
-              onClick={() => addAddress(currentAddresses, setCurrentAddresses)}
-              style={{
-                background: "#007bff",
-                color: "white",
-                border: "none",
-                padding: "6px 12px",
-                borderRadius: "4px",
-                cursor: "pointer",
-                alignSelf: "flex-start",
-              }}
-            >
-              + Add Address
-            </button>
+              {/* Add Address button */}
+              <button
+                onClick={() =>
+                  addAddress(currentAddresses, setCurrentAddresses)
+                }
+                style={{
+                  background: "#007bff",
+                  color: "white",
+                  border: "none",
+                  padding: "6px 12px",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                  alignSelf: "flex-start"
+                }}
+              >
+                + Add Address
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="flex gap-2">
           <button
@@ -526,12 +598,12 @@ function App() {
           >
             Download HTML
           </button>
-          <button
+          {/* <button
             onClick={copyToClipboardSourceCode}
             className="flex-1 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
           >
             Copy Signature
-          </button>
+          </button> */}
         </div>
       </div>
 

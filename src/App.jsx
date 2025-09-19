@@ -215,7 +215,7 @@ function App() {
    }
 
   <!-- Links -->
-  <div style="display: flex; gap: 10px;">
+  <div style="display: flex;">
     <div class="website">
       <a href="https://525rosario.com" style="text-decoration: none; color:rgb(255,255,255);">
         <span style="color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0;">
@@ -223,6 +223,10 @@ function App() {
         </span>
       </a>
     </div>
+
+      <h3 style="text-decoration: none; color:rgb(255,255,255);">
+      &nbsp;&nbsp;
+      </h3>
 
     <div class="website">
       <a href="https://www.instagram.com/525rosario/" style="text-decoration: none; color:rgb(255,255,255);">

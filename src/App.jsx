@@ -177,17 +177,17 @@ function App() {
 
   <!-- Logo -->
   <div style="">
-    <a href="https://www.division7.xyz" target="_blank" style="text-decoration: none;">
+    <a href="https://www.525rosario.com/" target="_blank" style="text-decoration: none;">
       <img src="https://images.squarespace-cdn.com/content/v1/66e7ad88c261d32ef5a7004f/beaf6fdd-bfb8-4b8d-b571-12ee5fb735ea/525-Rosario-Logo-Black.png?format=2500w" 
            alt="525ROSARIO" 
            border="0" 
 
-     style="width: 140px; height: 40px; display: block; margin-bottom: 5px;">
+     style="width: 130px; height: 30px; display: block; margin-bottom: 5px;">
     </a>
   </div>
 
   <div class="name">
-    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; margin: 0;">
+    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; margin: 0;">
       <span style="">${name}</span>
     </p>
   </div>
@@ -196,7 +196,7 @@ function App() {
     showTitle
       ? `
   <div class="title" style="margin-bottom: 4px;">
-    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; margin: 0;">
+    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 12px; margin: 0;">
       ${title}
     </p>
   </div>`
@@ -206,8 +206,8 @@ function App() {
    ${
      showPhoneNumber
        ? `
-  <div class="phone" style="margin-bottom: 8px;">
-    <p style="font-family: Helvetica, Arial, sans-serif; font-size: 10px; margin: 0;">
+  <div class="phone" style="margin-bottom: 4px;">
+    <p style="font-family: Helvetica, Arial, sans-serif; font-size: 8px; margin: 0;">
       MOBILE ${phone}
     </p>
   </div>`
@@ -218,7 +218,7 @@ function App() {
   <div style="display: flex;">
     <div class="website">
       <a href="https://525rosario.com" style="text-decoration: none; color:rgb(255,255,255);">
-        <span style="color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0;">
+        <span style="color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-size: 8px; margin: 0;">
           525ROSARIO&#8203;.COM
         </span>
       </a>
@@ -230,7 +230,7 @@ function App() {
 
     <div class="website">
       <a href="https://www.instagram.com/525rosario/" style="text-decoration: none; color:rgb(255,255,255);">
-        <span style="color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0;">
+        <span style="color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-size: 8px; margin: 0;">
           INSTAGRAM
         </span>
       </a>

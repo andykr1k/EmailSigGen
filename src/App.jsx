@@ -41,10 +41,10 @@ function App() {
     },
     { id: "4", city: "MIAMI", text: "323 NE 59th Terrace, Miami, FL 33137" },
   ]);
-  const [currentAddresses, setCurrentAddresses] =
-    chosenSignatureType === "d7"
-      ? [d7Addresses, setD7Addresses]
-      : [smugglerAddresses, setSmugglerAddresses];
+
+  // Fixed: Use derived values instead of conditional state assignment
+  const currentAddresses = chosenSignatureType === "d7" ? d7Addresses : smugglerAddresses;
+  const setCurrentAddresses = chosenSignatureType === "d7" ? setD7Addresses : setSmugglerAddresses;
 
   const placeholderText =
     chosenSignatureType === "d7"
@@ -53,41 +53,44 @@ function App() {
       ? "Enter Smuggler address format (e.g., PO Box / Customs Code)"
       : "Enter address";
 
-  const moveAddressUp = (index, addresses, setAddresses) => {
+  const moveAddressUp = (index) => {
     if (index === 0) return;
-    const newAddresses = [...addresses];
+    const newAddresses = [...currentAddresses];
     [newAddresses[index - 1], newAddresses[index]] = [
       newAddresses[index],
       newAddresses[index - 1],
     ];
-    setAddresses(newAddresses);
+    setCurrentAddresses(newAddresses);
   };
 
-  const moveAddressDown = (index, addresses, setAddresses) => {
-    if (index === addresses.length - 1) return;
-    const newAddresses = [...addresses];
+  const moveAddressDown = (index) => {
+    if (index === currentAddresses.length - 1) return;
+    const newAddresses = [...currentAddresses];
     [newAddresses[index], newAddresses[index + 1]] = [
       newAddresses[index + 1],
       newAddresses[index],
     ];
-    setAddresses(newAddresses);
+    setCurrentAddresses(newAddresses);
   };
 
-  const editAddress = (index, newText, addresses, setAddresses) => {
-    const newAddresses = [...addresses];
-    newAddresses[index].text = newText;
-    setAddresses(newAddresses);
+  const addAddress = () => {
+    const newAddress = chosenSignatureType === "smuggler" 
+      ? { id: Date.now().toString(), city: "CITY", text: "New Address" }
+      : { id: Date.now().toString(), text: "New Address" };
+    setCurrentAddresses([...currentAddresses, newAddress]);
   };
 
-  const addAddress = (addresses, setAddresses) => {
-    const newAddress = { id: Date.now().toString(), text: "New Address" };
-    setAddresses([...addresses, newAddress]);
-  };
-
-  const removeAddress = (index, addresses, setAddresses) => {
-    if (addresses.length > 1) {
-      setAddresses(addresses.filter((_, i) => i !== index));
+  const removeAddress = (index) => {
+    if (currentAddresses.length > 1) {
+      setCurrentAddresses(currentAddresses.filter((_, i) => i !== index));
     }
+  };
+
+  // Helper function to escape HTML
+  const escapeHtml = (text) => {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
   };
 
   const smuggler_signatureHTML = `<!DOCTYPE html>
@@ -95,72 +98,48 @@ function App() {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <title>SMUGGLER</title>
 </head>
-<body style="margin: .5; padding: .5;">
+<body style="margin: 0; padding: 0;">
 
-<table cellpadding="0" cellspacing="0" style="margin: 0; font-family: Poppins, Century Gothic, Arial, sans-serif;">
+<table cellpadding="0" cellspacing="0" border="0" style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;">
     <tr>
-        <td>
-            <table bgcolor="#FFFFFF" cellpadding="0" cellspacing="0" style="padding: .5px; margin: 1;">
-                <tr>
-                    <td>
-                        <a href="https://smugglersite.com" target="_blank"><img src="https://smugglersite.com/email-signatures/SMUGGLER24.png" alt="SMUGGLER" width="170" height="23" style="border: 0;"></a>
-                    </td>
-                    
-                </tr>
-                <tr>
-                    <td style="padding: 4px 0px 3px 0px;">
-                        <p style="margin: 0.5px; color: #A28D6F; font-size: 10pt; font-weight: 700;"><span style="color: #A28D6F;">${name}</span></p>
-                        ${
-                          showTitle
-                            ? `<p style="margin: 0.5px; color: #A28D6F; font-size: 10pt; font-weight: 700;"><span style="color: #A28D6F;">${title}</span></p>`
-                            : ``
-                        }
-                        
-                        ${
-                          showPhoneNumber
-                            ? `<p style="margin: 0.5px; color: #A28D6F; font-size: 10pt; font-weight: 700;"><span style="color: #A28D6F; font-size: 6pt; font-weight: 700;">MOBILE ${phone}</span></p>`
-                            : ``
-                        }
-                        
-                    </td>
-                </tr>
-                <tr>
-                    <td style="line-height:10px; padding-top:4px; padding-bottom:4px;">
-                        ${smugglerAddresses
-                          .map(
-                            (item) => `
-  <p style="margin:0.5px; color:#A28D6F; font-size:6pt; font-weight:600; text-transform:uppercase;">
-    <span style="color:#C7BBA9;"><span style="color: #A28D6F; text-transform: uppercase;">${item.city} </span>${item.text}</span>
-  </p>
-`
-                          )
-                          .join("")}
-                    </td>
-                </tr>
-                <tr>
-                    <td style="line-height:10px; padding-top:4px; padding-bottom:4px;">
-                        <p style="margin: 0.5px; color: #A28D6F; font-size: 6pt; font-weight: 600; text-transform: uppercase;"><span style="color: #A28D6F; text-transform: uppercase;">British Arrows </span><span style="color: #C7BBA9; font-weight: 600; text-transform: uppercase;">2025 Production Company of the Year</span></a></p>
-                        <p style="margin: 0.5px; color: #A28D6F; font-size: 6pt; font-weight: 600; text-transform: uppercase;"><span style="color: #A28D6F; text-transform: uppercase;">Ad Age </span><span style="color: #C7BBA9; font-weight: 600; text-transform: uppercase;">2025, 2024, 2020, 2017, 2010, 2007, 2004 Prod Co  of the Year</span></a></p>
-                        <p style="margin: 0.5px; color: #A28D6F; font-size: 6pt; font-weight: 600; text-transform: uppercase;"><span style="color: #A28D6F; text-transform: uppercase;">CANNES LIONS </span><span style="color: #C7BBA9; font-weight: 600; text-transform: uppercase;">2024, 2022, 2015, 2011, 2007 PALME D'OR & GRAND PRIX</span></a></p>
-                        <p style="margin: 0.5px; color: #A28D6F; font-size: 6pt; font-weight: 600; text-transform: uppercase;"><span style="color: #A28D6F; text-transform: uppercase;">Ciclope </span><span style="color: #C7BBA9; font-weight: 600; text-transform: uppercase;">2024, 2023, 2017 Prod Co of the Year & Grand Prix</span></a></p>
-                        <p style="margin: 0.5px; color: #A28D6F; font-size: 6pt; font-weight: 600; text-transform: uppercase;"><span style="color: #A28D6F; text-transform: uppercase;">Emmy Award </span><span style="color: #C7BBA9; font-weight: 600; text-transform: uppercase;">2022, 2020, 2017 Outstanding Commercial</span></a></p>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <a style="color: #fff; text-decoration: none;" href="https://smugglersite.com" target="_blank"><span style="color: #A28D6F; font-size: 6pt; font-weight: 700; text-transform: uppercase;">SMUGGLERSITE.COM</span></a>
-                        <span style="color: #A28D6F; font-size: 6pt; font-weight: 700; text-transform: uppercase;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <a style="color: #fff; text-decoration: none;" href="https://www.instagram.com/smugglersite/" target="_blank"><span style="color: #A28D6F; font-size: 6pt; font-weight: 700; text-transform: uppercase;">INSTAGRAM</span></a>
-                        <span style="color: #A28D6F; font-size: 6pt; font-weight: 700; text-transform: uppercase;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <a style="color: #fff; text-decoration: none;" href="https://twitter.com/smugglersite" target="_blank"><span style="color: #A28D6F; font-size: 6pt; font-weight: 700; text-transform: uppercase;">X (TWITTER)</span></a>
-                        <span style="color: #A28D6F; font-size: 6pt; font-weight: 700; text-transform: uppercase;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        <a style="color: #fff; text-decoration: none;" href="https://www.linkedin.com/company/smuggler/" target="_blank"><span style="color: #A28D6F; font-size: 6pt; font-weight: 700; text-transform: uppercase;">LINKEDIN</span></a>
-                    </td>
-                </tr>
-            </table>
+        <td style="padding: 0;">
+            <a href="https://smugglersite.com" target="_blank" style="text-decoration: none;"><img src="https://smugglersite.com/email-signatures/SMUGGLER24.png" alt="SMUGGLER" width="170" height="23" style="border: 0; display: block;"></a>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding-top: 4px; padding-bottom: 0;">
+            <span style="color: #A28D6F; font-size: 13px; font-weight: 700; font-family: Arial, Helvetica, sans-serif;">${escapeHtml(name)}</span>
+        </td>
+    </tr>
+    ${showTitle ? `<tr>
+        <td style="padding-top: 2px; padding-bottom: 0;">
+            <span style="color: #A28D6F; font-size: 13px; font-weight: 700; font-family: Arial, Helvetica, sans-serif;">${escapeHtml(title)}</span>
+        </td>
+    </tr>` : ''}
+    ${showPhoneNumber ? `<tr>
+        <td style="padding-top: 2px; padding-bottom: 0;">
+            <span style="color: #A28D6F; font-size: 8px; font-weight: 700; font-family: Arial, Helvetica, sans-serif;">MOBILE ${escapeHtml(phone)}</span>
+        </td>
+    </tr>` : ''}
+    <tr>
+        <td style="padding-top: 6px; padding-bottom: 0;">
+            ${smugglerAddresses.map(item => `<span style="color: #A28D6F; font-size: 8px; font-weight: 600; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; display: block; line-height: 11px;"><span style="color: #A28D6F;">${escapeHtml(item.city)} </span><span style="color: #C7BBA9;">${escapeHtml(item.text)}</span></span>`).join('')}
+        </td>
+    </tr>
+    <tr>
+        <td style="padding-top: 6px; padding-bottom: 0;">
+            <span style="color: #A28D6F; font-size: 5pt; font-weight: 600; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; display: block; line-height: 8px;"><span style="color: #A28D6F;">British Arrows </span><span style="color: #C7BBA9;">2025 Production Company of the Year</span></span>
+            <span style="color: #A28D6F; font-size: 5pt; font-weight: 600; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; display: block; line-height: 8px;"><span style="color: #A28D6F;">Ad Age </span><span style="color: #C7BBA9;">2025, 2024, 2020, 2017, 2010, 2007, 2004 Prod Co of the Year</span></span>
+            <span style="color: #A28D6F; font-size: 5pt; font-weight: 600; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; display: block; line-height: 8px;"><span style="color: #A28D6F;">CANNES LIONS </span><span style="color: #C7BBA9;">2024, 2022, 2015, 2011, 2007 PALME D'OR &amp; GRAND PRIX</span></span>
+            <span style="color: #A28D6F; font-size: 5pt; font-weight: 600; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; display: block; line-height: 8px;"><span style="color: #A28D6F;">Ciclope </span><span style="color: #C7BBA9;">2024, 2023, 2017 Prod Co of the Year &amp; Grand Prix</span></span>
+            <span style="color: #A28D6F; font-size: 5pt; font-weight: 600; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; display: block; line-height: 8px;"><span style="color: #A28D6F;">Emmy Award </span><span style="color: #C7BBA9;">2022, 2020, 2017 Outstanding Commercial</span></span>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding-top: 6px; padding-bottom: 0;">
+            <a style="color: #A28D6F; text-decoration: none; font-size: 5pt; font-weight: 700; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif;" href="https://smugglersite.com" target="_blank">SMUGGLERSITE.COM</a><span style="color: #A28D6F; font-size: 5pt; font-family: Arial, Helvetica, sans-serif;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a style="color: #A28D6F; text-decoration: none; font-size: 5pt; font-weight: 700; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif;" href="https://www.instagram.com/smugglersite/" target="_blank">INSTAGRAM</a><span style="color: #A28D6F; font-size: 5pt; font-family: Arial, Helvetica, sans-serif;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a style="color: #A28D6F; text-decoration: none; font-size: 5pt; font-weight: 700; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif;" href="https://twitter.com/smugglersite" target="_blank">X (TWITTER)</a><span style="color: #A28D6F; font-size: 5pt; font-family: Arial, Helvetica, sans-serif;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a style="color: #A28D6F; text-decoration: none; font-size: 5pt; font-weight: 700; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif;" href="https://www.linkedin.com/company/smuggler/" target="_blank">LINKEDIN</a>
         </td>
     </tr>
 </table>
@@ -173,151 +152,113 @@ function App() {
   <meta charset="UTF-8">
   <title>525 Rosario</title>
 </head>
-<body style="text-size-adjust: none !important; -ms-text-size-adjust: none !important; -webkit-text-size-adjust: none !important; margin: 0; padding: 8px;">
+<body style="margin: 0; padding: 8px;">
 
-  <!-- Logo -->
-  <div style="">
-    <a href="https://www.525rosario.com/" target="_blank" style="text-decoration: none;">
-      <img src="https://images.squarespace-cdn.com/content/v1/66e7ad88c261d32ef5a7004f/beaf6fdd-bfb8-4b8d-b571-12ee5fb735ea/525-Rosario-Logo-Black.png?format=2500w" 
-           alt="525ROSARIO" 
-           border="0" 
-
-     style="width: 130px; height: 30px; display: block; margin-bottom: 5px;">
-    </a>
-  </div>
-
-  <div class="name">
-    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; margin: 0;">
-      <span style="">${name}</span>
-    </p>
-  </div>
-
-  ${
-    showTitle
-      ? `
-  <div class="title" style="margin-bottom: 4px;">
-    <p style="font-family: Arial, Helvetica, sans-serif; font-size: 12px; margin: 0;">
-      ${title}
-    </p>
-  </div>`
-      : ""
-  }
-
-   ${
-     showPhoneNumber
-       ? `
-  <div class="phone" style="margin-bottom: 4px;">
-    <p style="font-family: Helvetica, Arial, sans-serif; font-size: 8px; margin: 0;">
-      MOBILE ${phone}
-    </p>
-  </div>`
-       : ""
-   }
-
-  <!-- Links -->
-  <div style="display: flex;">
-    <div class="website">
-      <a href="https://525rosario.com" style="text-decoration: none; color:rgb(255,255,255);">
-        <span style="color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-size: 8px; margin: 0;">
-          525ROSARIO&#8203;.COM
-        </span>
+<table cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
+  <tr>
+    <td style="padding-bottom: 5px;">
+      <a href="https://www.525rosario.com/" target="_blank" style="text-decoration: none;">
+        <img src="https://images.squarespace-cdn.com/content/v1/66e7ad88c261d32ef5a7004f/beaf6fdd-bfb8-4b8d-b571-12ee5fb735ea/525-Rosario-Logo-Black.png?format=2500w" 
+             alt="525ROSARIO" 
+             border="0" 
+             width="130"
+             height="30"
+             style="width: 130px; height: 30px; display: block;">
       </a>
-    </div>
-
-      <h3 style="text-decoration: none; color:rgb(255,255,255);">
-      &nbsp;&nbsp;
-      </h3>
-
-    <div class="website">
-      <a href="https://www.instagram.com/525rosario/" style="text-decoration: none; color:rgb(255,255,255);">
-        <span style="color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-size: 8px; margin: 0;">
-          INSTAGRAM
-        </span>
-      </a>
-    </div>
-  </div>
+    </td>
+  </tr>
+  <tr>
+    <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 16px; padding: 0;">
+      ${escapeHtml(name)}
+    </td>
+  </tr>
+  ${showTitle ? `<tr>
+    <td style="font-family: Arial, Helvetica, sans-serif; font-size: 12px; line-height: 14px; padding: 4px 0;">
+      ${escapeHtml(title)}
+    </td>
+  </tr>` : ''}
+  ${showPhoneNumber ? `<tr>
+    <td style="font-family: Helvetica, Arial, sans-serif; font-size: 8px; line-height: 10px; padding: 4px 0;">
+      MOBILE ${escapeHtml(phone)}
+    </td>
+  </tr>` : ''}
+  <tr>
+    <td style="padding-top: 4px;">
+      <a href="https://525rosario.com" style="text-decoration: none; color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-size: 8px;">525ROSARIO&#8203;.COM</a>
+      <span style="color: rgb(0, 0, 0); font-size: 8px;">&nbsp;&nbsp;</span>
+      <a href="https://www.instagram.com/525rosario/" style="text-decoration: none; color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-size: 8px;">INSTAGRAM</a>
+    </td>
+  </tr>
+</table>
 
 </body>
 </html>`;
 
-  const d7_signatureHTML = `<!doctype html>
-  <html lang="en-US">
-  <head>
-    <meta charset="UTF-8">
-    <title>DIVISION7</title>
-  </head>
-  <body style="text-size-adjust: none !important; -ms-text-size-adjust: none !important; -webkit-text-size-adjust: none !important; margin: 0; padding: 8px;">
+  const d7_signatureHTML = `<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>DIVISION7</title>
+</head>
+<body style="margin: 0; padding: 8px;">
 
-    <div style="margin-bottom: 4px;">
-      <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(172, 79, 58); margin: 0;">&nbsp;</p>
-    </div>
-
-    <div style="margin-bottom: 8px;">
-      <a href="https://www.division7.xyz" target="_blank" style="text-decoration: none; color: rgb(172, 79, 58);">
+<table cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
+  <tr>
+    <td style="padding-bottom: 8px;">
+      <a href="https://www.division7.xyz" target="_blank" style="text-decoration: none;">
         <img src="https://www.division7.xyz/wp-content/uploads/2025/06/d7-logo-email-footer-128w.png" alt="d7" border="0" width="80" height="91" style="width: 80px; height: 91px; display: block;">
       </a>
-    </div>
-  
-    <div class="name">
-      <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(172, 79, 58); margin: 0;">
-        <span style="font-weight: bold;">${name}</span>
-      </p>
-    </div>
-  
-    ${
-      showTitle
-        ? `    <div class="title" style="margin-bottom: 4px;">
-      <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(172, 79, 58); margin: 0;">${title}</p>
-    </div>`
-        : ``
-    }
+    </td>
+  </tr>
+  <tr>
+    <td style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(172, 79, 58); line-height: 12px;">
+      <strong>${escapeHtml(name)}</strong>
+    </td>
+  </tr>
+  ${showTitle ? `<tr>
+    <td style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(172, 79, 58); line-height: 12px; padding: 4px 0;">
+      ${escapeHtml(title)}
+    </td>
+  </tr>` : ''}
+  ${showPhoneNumber ? `<tr>
+    <td style="font-family: Helvetica, Arial, sans-serif; font-size: 10px; color: rgb(172, 79, 58); line-height: 12px; padding-bottom: 8px;">
+      ${escapeHtml(phone)} m
+    </td>
+  </tr>` : ''}
+  <tr>
+    <td style="padding-bottom: 4px;">
+      <table cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse; width: 315px;">
+        <tr>
+          <td style="border-top: 1px solid rgb(172, 79, 58); padding: 4px 0;"></td>
+        </tr>
+        ${d7Addresses.map(item => `<tr>
+          <td style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(172, 79, 58); line-height: 12px; padding-bottom: 4px;">
+            ${escapeHtml(item.text)}
+          </td>
+        </tr>`).join('')}
+        <tr>
+          <td style="border-top: 1px solid rgb(172, 79, 58); padding-top: 4px;"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding-bottom: 8px;">
+      <a href="https://division7.xyz" style="text-decoration: none; color: rgb(172, 79, 58); font-family: Arial, Helvetica, sans-serif; font-size: 10px;">division7&#8203;.xyz</a>
+    </td>
+  </tr>
+  <tr>
+    <td style="line-height: 12px;">
+      <span style="font-size: 9px; font-family: Helvetica, Arial, sans-serif; color: rgb(172, 79, 58); display: block; margin: 0; padding: 0;">Ad Age Creativity – 2024 Standout Production Company</span>
+      <span style="font-size: 9px; font-family: Helvetica, Arial, sans-serif; color: rgb(172, 79, 58); display: block; margin: 0; padding: 0;">Ad Age Creativity – 2023 A-List Production Company</span>
+      <span style="font-size: 9px; font-family: Helvetica, Arial, sans-serif; color: rgb(172, 79, 58); display: block; margin: 0; padding: 0;">Ad Age Creativity – 2022 Standout Production Company</span>
+      <span style="font-size: 9px; font-family: Helvetica, Arial, sans-serif; color: rgb(172, 79, 58); display: block; margin: 0; padding: 0;">Ad Age Creativity – 2020 Production Company to Watch</span>
+    </td>
+  </tr>
+</table>
 
-  
-    ${
-      showPhoneNumber
-        ? `    <div class="phone" style="margin-bottom: 8px;">
-      <p style="font-family: Helvetica, Arial, sans-serif; font-size: 10px; color: rgb(172, 79, 58); margin: 0;">${phone} m</p>
-    </div>`
-        : ``
-    }
-  
-    <div class="contact-info" style="margin-bottom: 8px;">
-      <span style="display: block; width: 315px; border-top: 1px solid rgb(172, 79, 58); margin-bottom: 4px; padding-bottom: 4px;"></span>
-      ${d7Addresses
-        .map(
-          (item) => `
-      <p style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(172, 79, 58); margin: 0; padding-bottom: 4px;">${item.text}</p>`
-        )
-        .join("")}
-      <span style="display: block; width: 315px; border-top: 1px solid rgb(172, 79, 58); margin-top: 4px;"></span>
-    </div>
-
-    <div class="website" style="margin-bottom: 8px; text-decoration: none;">
-          <a href="https://division7.xyz" style="color:rgb(255,255,255)">
-  <span style="text-decoration: none; color: rgb(172, 79, 58); font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0; display: block;" data-mce-href="#" data-mce-style="text-decoration: none; color: #ac4f3a; font-family: Arial, Helvetica, sans-serif; font-size: 10px; margin: 0; display: block;">
-    division7&#8203.xyz
-  </span>
-</a>
-    </div>
-
-
-    <div class="ad-age" style="line-height: 12px;">
-      <p style="margin: 0; font-size: 9px; font-family: Helvetica, Arial, sans-serif; color: rgb(172, 79, 58);">
-        Ad Age Creativity – 2024 Standout Production Company
-      </p>
-      <p style="margin: 0; font-size: 9px; font-family: Helvetica, Arial, sans-serif; color: rgb(172, 79, 58);">
-        Ad Age Creativity – 2023 A-List Production Company
-      </p>
-      <p style="margin: 0; font-size: 9px; font-family: Helvetica, Arial, sans-serif; color: rgb(172, 79, 58);">
-        Ad Age Creativity – 2022 Standout Production Company
-      </p>
-      <p style="margin: 0; font-size: 9px; font-family: Helvetica, Arial, sans-serif; color: rgb(172, 79, 58);">
-        Ad Age Creativity – 2020 Production Company to Watch
-      </p>
-    </div>
-  
-  </body>
-  </html>`;
+</body>
+</html>`;
 
   const handleDownload = () => {
     const blob = new Blob(
@@ -339,64 +280,36 @@ function App() {
     setShowModal(true);
   };
 
-  const copyToClipboardSourceCode = () => {
-    navigator.clipboard
-      .writeText(
-        chosenSignatureType === "d7"
-          ? d7_signatureHTML
-          : chosenSignatureType === "smuggler"
-          ? smuggler_signatureHTML
-          : rosario_signatureHTML
-      )
-      .then(() => {
-        alert("HTML copied to clipboard!");
-      })
-      .catch(() => {
-        alert("Could not copy to clipboard. Please use the download option.");
-      });
-  };
-
-  const copyToClipboard = () => {
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML =
-      chosenSignatureType === "d7"
-        ? d7_signatureHTML
-        : chosenSignatureType === "smuggler"
-        ? smuggler_signatureHTML
-        : rosario_signatureHTML;
-    tempDiv.style.position = "fixed";
-    tempDiv.style.pointerEvents = "none";
-    tempDiv.style.opacity = 0;
-    document.body.appendChild(tempDiv);
-
-    const range = document.createRange();
-    range.selectNodeContents(tempDiv);
-
-    const selection = window.getSelection();
-    selection.removeAllRanges();
-    selection.addRange(range);
-
-    try {
-      const successful = document.execCommand("copy");
-      if (successful) {
-        alert("HTML signature copied to clipboard!");
-      } else {
-        alert("Copy failed. Please try manually.");
-      }
-    } catch (err) {
-      alert("Copy failed. Please try manually.");
-    }
-
-    selection.removeAllRanges();
-    document.body.removeChild(tempDiv);
-  };
-
   return (
     <div className="min-h-screen flex p-4 lg:p-10 gap-4 lg:gap-10 bg-gray-50 relative flex-col lg:flex-row">
       {/* Left side: Inputs */}
-      <div className="w-full lg:w-1/3 space-y-4">
-        <h1 className="text-lg font-bold mb-5">Email Signature Generator</h1>
-
+      <div className="w-full lg:w-2/3 space-y-4">
+        <div className="grid grid-cols-3 w-full text-center bg-blue-600/50 rounded-xl border">
+          <button
+            onClick={() => setChosenSignatureType("smuggler")}
+            className={`p-3 rounded-xl ${
+              chosenSignatureType === "smuggler" ? "bg-blue-600" : ""
+            }`}
+          >
+            <p className="text-white">SMUGGLER</p>
+          </button>
+          <button
+            onClick={() => setChosenSignatureType("d7")}
+            className={`p-3 rounded-2xl ${
+              chosenSignatureType === "d7" ? "bg-blue-600" : ""
+            }`}
+          >
+            <p className="text-white">d7</p>
+          </button>
+          <button
+            onClick={() => setChosenSignatureType("rosario")}
+            className={`p-3 rounded-2xl ${
+              chosenSignatureType === "rosario" ? "bg-blue-600" : ""
+            }`}
+          >
+            <p className="text-white">Rosario</p>
+          </button>
+        </div>
         <div>
           <label className="block text-sm font-medium mb-1">Name</label>
           <input
@@ -446,37 +359,23 @@ function App() {
             <div className="flex justify-between items-center mb-2">
               <label className="block text-sm font-medium">Addresses</label>
             </div>
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "8px" }}
-            >
+            <div className="flex flex-col gap-2">
               {currentAddresses.map((item, index) => (
                 <div
                   key={item.id || index}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    background: "#f5f5f5",
-                    padding: "8px",
-                    borderRadius: "4px",
-                  }}
+                  className="flex items-center bg-gray-100 p-2 rounded"
                 >
                   {chosenSignatureType === "smuggler" && (
                     <textarea
-                      value={item?.city}
-                      placeholder={placeholderText}
+                      value={item?.city || ''}
+                      placeholder="CITY"
                       onChange={(e) => {
                         const updated = [...currentAddresses];
                         updated[index].city = e.target.value;
                         setCurrentAddresses(updated);
                       }}
-                      style={{
-                        marginRight: "8px",
-                        resize: "none",
-                        padding: "4px",
-                        fontSize: "14px",
-                        border: "1px solid #ccc",
-                        borderRadius: "4px",
-                      }}
+                      className="mr-2 resize-none p-1 text-sm border border-gray-300 rounded w-20"
+                      rows={1}
                     />
                   )}
                   <textarea
@@ -487,106 +386,38 @@ function App() {
                       updated[index].text = e.target.value;
                       setCurrentAddresses(updated);
                     }}
-                    style={{
-                      flex: 1,
-                      marginRight: "8px",
-                      resize: "none",
-                      padding: "4px",
-                      fontSize: "14px",
-                      border: "1px solid #ccc",
-                      borderRadius: "4px",
-                    }}
+                    className="flex-1 mr-2 resize-none p-1 text-sm border border-gray-300 rounded"
+                    rows={2}
                   />
-                  {/* Move Up/Down buttons */}
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      gap: "4px",
-                    }}
-                  >
+                  <div className="flex flex-col gap-1">
                     <button
-                      onClick={() =>
-                        moveAddressUp(
-                          index,
-                          currentAddresses,
-                          setCurrentAddresses
-                        )
-                      }
+                      onClick={() => moveAddressUp(index)}
                       disabled={index === 0}
-                      style={{
-                        background: "#6c757d",
-                        color: "white",
-                        border: "none",
-                        padding: "2px 6px",
-                        borderRadius: "4px",
-                        cursor: index === 0 ? "not-allowed" : "pointer",
-                      }}
+                      className="bg-gray-600 text-white border-none px-2 py-1 rounded text-xs disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       ↑
                     </button>
                     <button
-                      onClick={() =>
-                        moveAddressDown(
-                          index,
-                          currentAddresses,
-                          setCurrentAddresses
-                        )
-                      }
+                      onClick={() => moveAddressDown(index)}
                       disabled={index === currentAddresses.length - 1}
-                      style={{
-                        background: "#6c757d",
-                        color: "white",
-                        border: "none",
-                        padding: "2px 6px",
-                        borderRadius: "4px",
-                        cursor:
-                          index === currentAddresses.length - 1
-                            ? "not-allowed"
-                            : "pointer",
-                      }}
+                      className="bg-gray-600 text-white border-none px-2 py-1 rounded text-xs disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       ↓
                     </button>
                   </div>
-                  {/* Remove button */}
                   <button
-                    onClick={() =>
-                      removeAddress(
-                        index,
-                        currentAddresses,
-                        setCurrentAddresses
-                      )
-                    }
-                    style={{
-                      background: "red",
-                      color: "white",
-                      border: "none",
-                      padding: "4px 8px",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                      marginLeft: "8px",
-                    }}
+                    onClick={() => removeAddress(index)}
+                    disabled={currentAddresses.length === 1}
+                    className="bg-red-600 text-white border-none px-2 py-1 rounded ml-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     ✕
                   </button>
                 </div>
               ))}
 
-              {/* Add Address button */}
               <button
-                onClick={() =>
-                  addAddress(currentAddresses, setCurrentAddresses)
-                }
-                style={{
-                  background: "#007bff",
-                  color: "white",
-                  border: "none",
-                  padding: "6px 12px",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                  alignSelf: "flex-start"
-                }}
+                onClick={addAddress}
+                className="bg-blue-600 text-white border-none px-3 py-2 rounded self-start hover:bg-blue-700"
               >
                 + Add Address
               </button>
@@ -601,43 +432,11 @@ function App() {
           >
             Download HTML
           </button>
-          {/* <button
-            onClick={copyToClipboardSourceCode}
-            className="flex-1 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-          >
-            Copy Signature
-          </button> */}
         </div>
       </div>
 
       {/* Right side: Preview */}
-      <div className="w-full lg:w-2/3 p-4 space-y-3">
-        <div className="grid grid-cols-3 w-full text-center bg-blue-600/50 rounded-xl border">
-          <button
-            onClick={() => setChosenSignatureType("smuggler")}
-            className={`p-3 rounded-xl ${
-              chosenSignatureType === "smuggler" ? "bg-blue-600" : ""
-            }`}
-          >
-            <p className="text-white">SMUGGLER</p>
-          </button>
-          <button
-            onClick={() => setChosenSignatureType("d7")}
-            className={`p-3 rounded-2xl ${
-              chosenSignatureType === "d7" ? "bg-blue-600" : ""
-            }`}
-          >
-            <p className="text-white">d7</p>
-          </button>
-          <button
-            onClick={() => setChosenSignatureType("rosario")}
-            className={`p-3 rounded-2xl ${
-              chosenSignatureType === "rosario" ? "bg-blue-600" : ""
-            }`}
-          >
-            <p className="text-white">Rosario</p>
-          </button>
-        </div>
+      <div className="w-full lg:w-1/3 p-4 space-y-3">
         <div
           className="w-full border p-4 bg-white overflow-auto rounded"
           dangerouslySetInnerHTML={{

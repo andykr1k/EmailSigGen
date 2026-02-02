@@ -93,58 +93,109 @@ function App() {
     return div.innerHTML;
   };
 
-  const smuggler_signatureHTML = `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SMUGGLER</title>
-</head>
-<body style="margin: 0; padding: 0;">
+  const smuggler_signatureHTML = `
+<table role="presentation" cellpadding="0" cellspacing="0" border="0"
+  style="margin:0; padding:0; border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; font-family:Arial, Helvetica, sans-serif;">
+  <tr>
+    <td style="padding:0;">
+      <a href="https://smugglersite.com" target="_blank" style="text-decoration:none; border:0;">
+        <img src="https://smugglersite.com/email-signatures/SMUGGLER24.png"
+             alt="SMUGGLER"
+             width="170" height="23"
+             style="border:0; display:block; outline:none; text-decoration:none;">
+      </a>
+    </td>
+  </tr>
 
-<table cellpadding="0" cellspacing="0" border="0" style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;">
-    <tr>
-        <td style="padding: 0;">
-            <a href="https://smugglersite.com" target="_blank" style="text-decoration: none;"><img src="https://smugglersite.com/email-signatures/SMUGGLER24.png" alt="SMUGGLER" width="170" height="23" style="border: 0; display: block;"></a>
-        </td>
-    </tr>
-    <tr>
-        <td style="padding-top: 4px; padding-bottom: 0;">
-            <span style="color: #A28D6F; font-size: 13px; font-weight: 700; font-family: Arial, Helvetica, sans-serif;">${escapeHtml(name)}</span>
-        </td>
-    </tr>
-    ${showTitle ? `<tr>
-        <td style="padding-top: 2px; padding-bottom: 0;">
-            <span style="color: #A28D6F; font-size: 13px; font-weight: 700; font-family: Arial, Helvetica, sans-serif;">${escapeHtml(title)}</span>
-        </td>
-    </tr>` : ''}
-    ${showPhoneNumber ? `<tr>
-        <td style="padding-top: 2px; padding-bottom: 0;">
-            <span style="color: #A28D6F; font-size: 8px; font-weight: 700; font-family: Arial, Helvetica, sans-serif;">MOBILE ${escapeHtml(phone)}</span>
-        </td>
-    </tr>` : ''}
-    <tr>
-        <td style="padding-top: 6px; padding-bottom: 0;">
-            ${smugglerAddresses.map(item => `<span style="color: #A28D6F; font-size: 8px; font-weight: 600; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; display: block; line-height: 11px;"><span style="color: #A28D6F;">${escapeHtml(item.city)} </span><span style="color: #C7BBA9;">${escapeHtml(item.text)}</span></span>`).join('')}
-        </td>
-    </tr>
-    <tr>
-        <td style="padding-top: 6px; padding-bottom: 0;">
-            <span style="color: #A28D6F; font-size: 5pt; font-weight: 600; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; display: block; line-height: 8px;"><span style="color: #A28D6F;">British Arrows </span><span style="color: #C7BBA9;">2025 Production Company of the Year</span></span>
-            <span style="color: #A28D6F; font-size: 5pt; font-weight: 600; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; display: block; line-height: 8px;"><span style="color: #A28D6F;">Ad Age </span><span style="color: #C7BBA9;">2025, 2024, 2020, 2017, 2010, 2007, 2004 Prod Co of the Year</span></span>
-            <span style="color: #A28D6F; font-size: 5pt; font-weight: 600; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; display: block; line-height: 8px;"><span style="color: #A28D6F;">CANNES LIONS </span><span style="color: #C7BBA9;">2024, 2022, 2015, 2011, 2007 PALME D'OR &amp; GRAND PRIX</span></span>
-            <span style="color: #A28D6F; font-size: 5pt; font-weight: 600; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; display: block; line-height: 8px;"><span style="color: #A28D6F;">Ciclope </span><span style="color: #C7BBA9;">2024, 2023, 2017 Prod Co of the Year &amp; Grand Prix</span></span>
-            <span style="color: #A28D6F; font-size: 5pt; font-weight: 600; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; display: block; line-height: 8px;"><span style="color: #A28D6F;">Emmy Award </span><span style="color: #C7BBA9;">2022, 2020, 2017 Outstanding Commercial</span></span>
-        </td>
-    </tr>
-    <tr>
-        <td style="padding-top: 6px; padding-bottom: 0;">
-            <a style="color: #A28D6F; text-decoration: none; font-size: 5pt; font-weight: 700; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif;" href="https://smugglersite.com" target="_blank">SMUGGLERSITE.COM</a><span style="color: #A28D6F; font-size: 5pt; font-family: Arial, Helvetica, sans-serif;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a style="color: #A28D6F; text-decoration: none; font-size: 5pt; font-weight: 700; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif;" href="https://www.instagram.com/smugglersite/" target="_blank">INSTAGRAM</a><span style="color: #A28D6F; font-size: 5pt; font-family: Arial, Helvetica, sans-serif;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a style="color: #A28D6F; text-decoration: none; font-size: 5pt; font-weight: 700; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif;" href="https://twitter.com/smugglersite" target="_blank">X (TWITTER)</a><span style="color: #A28D6F; font-size: 5pt; font-family: Arial, Helvetica, sans-serif;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><a style="color: #A28D6F; text-decoration: none; font-size: 5pt; font-weight: 700; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif;" href="https://www.linkedin.com/company/smuggler/" target="_blank">LINKEDIN</a>
-        </td>
-    </tr>
+  <tr>
+    <td style="padding-top:4px; padding-bottom:0;">
+      <span style="color:#A28D6F; font-size:13px; font-weight:700; font-family:Arial, Helvetica, sans-serif;">
+        ${escapeHtml(name)}
+      </span>
+    </td>
+  </tr>
+
+  ${showTitle ? `
+  <tr>
+    <td style="padding-top:2px; padding-bottom:0;">
+      <span style="color:#A28D6F; font-size:13px; font-weight:700; font-family:Arial, Helvetica, sans-serif;">
+        ${escapeHtml(title)}
+      </span>
+    </td>
+  </tr>
+  ` : ''}
+
+  ${showPhoneNumber ? `
+  <tr>
+    <td style="padding-top:2px; padding-bottom:0;">
+      <span style="color:#A28D6F; font-size:8px; font-weight:700; font-family:Arial, Helvetica, sans-serif;">
+        MOBILE ${escapeHtml(phone)}
+      </span>
+    </td>
+  </tr>
+  ` : ''}
+
+  <tr>
+    <td style="padding-top:6px; padding-bottom:0;">
+      ${smugglerAddresses.map(item => `
+        <span style="color:#A28D6F; font-size:8px; font-weight:600; text-transform:uppercase; font-family:Arial, Helvetica, sans-serif; display:block; line-height:11px;">
+          <span style="color:#A28D6F;">${escapeHtml(item.city)} </span>
+          <span style="color:#C7BBA9;">${escapeHtml(item.text)}</span>
+        </span>
+      `).join('')}
+    </td>
+  </tr>
+
+  <tr>
+    <td style="padding-top:6px; padding-bottom:0;">
+      <span style="color:#A28D6F; font-size:5pt; font-weight:600; text-transform:uppercase; font-family:Arial, Helvetica, sans-serif; display:block; line-height:8px;">
+        <span style="color:#A28D6F;">British Arrows </span>
+        <span style="color:#C7BBA9;">2025 Production Company of the Year</span>
+      </span>
+      <span style="color:#A28D6F; font-size:5pt; font-weight:600; text-transform:uppercase; font-family:Arial, Helvetica, sans-serif; display:block; line-height:8px;">
+        <span style="color:#A28D6F;">Ad Age </span>
+        <span style="color:#C7BBA9;">2025, 2024, 2020, 2017, 2010, 2007, 2004 Prod Co of the Year</span>
+      </span>
+      <span style="color:#A28D6F; font-size:5pt; font-weight:600; text-transform:uppercase; font-family:Arial, Helvetica, sans-serif; display:block; line-height:8px;">
+        <span style="color:#A28D6F;">CANNES LIONS </span>
+        <span style="color:#C7BBA9;">2024, 2022, 2015, 2011, 2007 PALME D&apos;OR &amp; GRAND PRIX</span>
+      </span>
+      <span style="color:#A28D6F; font-size:5pt; font-weight:600; text-transform:uppercase; font-family:Arial, Helvetica, sans-serif; display:block; line-height:8px;">
+        <span style="color:#A28D6F;">Ciclope </span>
+        <span style="color:#C7BBA9;">2024, 2023, 2017 Prod Co of the Year &amp; Grand Prix</span>
+      </span>
+      <span style="color:#A28D6F; font-size:5pt; font-weight:600; text-transform:uppercase; font-family:Arial, Helvetica, sans-serif; display:block; line-height:8px;">
+        <span style="color:#A28D6F;">Emmy Award </span>
+        <span style="color:#C7BBA9;">2022, 2020, 2017 Outstanding Commercial</span>
+      </span>
+    </td>
+  </tr>
+
+  <tr>
+    <td style="padding-top:6px; padding-bottom:0;">
+      <a href="https://smugglersite.com" target="_blank"
+         style="color:#A28D6F; text-decoration:none; font-size:5pt; font-weight:700; text-transform:uppercase; font-family:Arial, Helvetica, sans-serif;">
+        SMUGGLERSITE.COM
+      </a>
+      <span style="color:#A28D6F; font-size:5pt; font-family:Arial, Helvetica, sans-serif;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <a href="https://www.instagram.com/smugglersite/" target="_blank"
+         style="color:#A28D6F; text-decoration:none; font-size:5pt; font-weight:700; text-transform:uppercase; font-family:Arial, Helvetica, sans-serif;">
+        INSTAGRAM
+      </a>
+      <span style="color:#A28D6F; font-size:5pt; font-family:Arial, Helvetica, sans-serif;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <a href="https://twitter.com/smugglersite" target="_blank"
+         style="color:#A28D6F; text-decoration:none; font-size:5pt; font-weight:700; text-transform:uppercase; font-family:Arial, Helvetica, sans-serif;">
+        X (TWITTER)
+      </a>
+      <span style="color:#A28D6F; font-size:5pt; font-family:Arial, Helvetica, sans-serif;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <a href="https://www.linkedin.com/company/smuggler/" target="_blank"
+         style="color:#A28D6F; text-decoration:none; font-size:5pt; font-weight:700; text-transform:uppercase; font-family:Arial, Helvetica, sans-serif;">
+        LINKEDIN
+      </a>
+    </td>
+  </tr>
 </table>
-</body>
-</html>`;
+`.trim();
 
   const rosario_signatureHTML = `<!DOCTYPE html>
 <html lang="en-US">

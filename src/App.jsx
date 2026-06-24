@@ -36,7 +36,7 @@ function App() {
 
   const [smugglerAwards, setSmugglerAwards] = useState([
     { id: "1", prefix: "CANNES LIONS ", suffix: "2026 GRAND Prix, 2024, 2022, 2015, 2011 & 2007 PALME D'OR" },
-    { id: "2", prefix: "British Arrows Awards ", suffix: "2025 Production Company of the Year" },
+    { id: "2", prefix: "British Arrows ", suffix: "2025 Production Company of the Year" },
     { id: "3", prefix: "Ad Age ", suffix: "2025, 2024, 2020, 2017, 2010, 2007, 2004 Production Company of the Year" },
     { id: "4", prefix: "Ciclope ", suffix: "2024, 2023, 2017 Production Company of the Year & Grand Prix" },
     { id: "5", prefix: "Emmy Awards ", suffix: "2022, 2020, 2017 Outstanding Commercial" },

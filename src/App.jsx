@@ -312,12 +312,12 @@ function App() {
   <tr>
     <td style="padding-bottom: 12px;">
       <a href="https://badfoot.com/" target="_blank" style="text-decoration: none;">
-        <img src="https://via.placeholder.com/150x50?text=BADFOOT+LOGO" 
+        <img src="https://www.badfoot.com/assets/logos/badfoot-logo.png" 
              alt="BADFOOT" 
              border="0" 
              width="150"
-             height="50"
-             style="width: 150px; height: 50px; display: block;">
+             height="40"
+             style="width: 150px; height: 40px; display: block;">
       </a>
     </td>
   </tr>

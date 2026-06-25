@@ -49,11 +49,19 @@ function App() {
     { id: "4", label: "LINKEDIN", url: "https://www.linkedin.com/company/smuggler/" },
   ]);
 
+  const [badfootLinks, setBadfootLinks] = useState([
+    { id: "1", label: "BADFOOT.COM", url: "https://badfoot.com" },
+    { id: "2", label: "INSTAGRAM", url: "https://www.instagram.com/badfoot/" },
+  ]);
+
   const currentAddresses = chosenSignatureType === "d7" ? d7Addresses : smugglerAddresses;
   const setCurrentAddresses = chosenSignatureType === "d7" ? setD7Addresses : setSmugglerAddresses;
 
   const currentAwards = chosenSignatureType === "d7" ? d7Awards : smugglerAwards;
   const setCurrentAwards = chosenSignatureType === "d7" ? setD7Awards : setSmugglerAwards;
+
+  const currentLinks = chosenSignatureType === "smuggler" ? smugglerLinks : chosenSignatureType === "badfoot" ? badfootLinks : [];
+  const setCurrentLinks = chosenSignatureType === "smuggler" ? setSmugglerLinks : chosenSignatureType === "badfoot" ? setBadfootLinks : () => {};
 
   const moveItemUp = (index, list, setList) => {
     if (index === 0) return;
@@ -293,6 +301,60 @@ function App() {
 </body>
 </html>`;
 
+  const badfoot_signatureHTML = `<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>BADFOOT</title>
+</head>
+<body style="margin: 0; padding: 8px;">
+<table cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
+  <tr>
+    <td style="padding-bottom: 12px;">
+      <a href="https://badfoot.com/" target="_blank" style="text-decoration: none;">
+        <img src="https://via.placeholder.com/150x50?text=BADFOOT+LOGO" 
+             alt="BADFOOT" 
+             border="0" 
+             width="150"
+             height="50"
+             style="width: 150px; height: 50px; display: block;">
+      </a>
+    </td>
+  </tr>
+  ${showName ? `
+  <tr>
+    <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; line-height: 16px; padding: 0; color: #000000;">
+      ${escapeHtml(name)}
+    </td>
+  </tr>` : ''}
+  ${showTitle ? `<tr>
+    <td style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; line-height: 16px; padding: 2px 0 0 0; color: #000000;">
+      ${escapeHtml(title)}
+    </td>
+  </tr>` : ''}
+  ${showPhoneNumber ? `<tr>
+    <td style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; line-height: 14px; padding: 12px 0 0 0; color: #000000;">
+      MOBILE: ${escapeHtml(phone)}
+    </td>
+  </tr>` : ''}
+  ${showLinks ? `
+  <tr>
+    <td style="padding-top: 12px;">
+      <table cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse;">
+        ${badfootLinks.filter(item => !item.hidden).map(link => `
+        <tr>
+          <td style="padding: 0; line-height: 10px;">
+            <a href="${escapeHtml(link.url)}" style="text-decoration: none; color: rgb(0, 0, 0); font-family: Arial, Helvetica, sans-serif; font-size: 10px; letter-spacing: -0.5px; line-height: 10px; display: block;">${escapeHtml(link.label)}</a>
+          </td>
+        </tr>`).join('')}
+      </table>
+    </td>
+  </tr>
+  ` : ''}
+</table>
+</body>
+</html>`;
+
   const handleDownload = () => {
     const blob = new Blob(
       [
@@ -300,6 +362,8 @@ function App() {
           ? d7_signatureHTML
           : chosenSignatureType === "smuggler"
           ? smuggler_signatureHTML
+          : chosenSignatureType === "badfoot"
+          ? badfoot_signatureHTML
           : rosario_signatureHTML,
       ],
       { type: "text/html" }
@@ -329,7 +393,7 @@ function App() {
             {/* Header/Tabs */}
             <div className="bg-slate-100/50 p-6 border-b border-slate-100 shrink-0">
               <div className="flex bg-slate-200 p-1 rounded-2xl w-full">
-              {['smuggler', 'd7', 'rosario'].map((type) => (
+              {['smuggler', 'd7', 'rosario', 'badfoot'].map((type) => (
                 <button
                   key={type}
                   onClick={() => setChosenSignatureType(type)}
@@ -394,7 +458,7 @@ function App() {
             </div>
 
             {/* Addresses Section */}
-            {chosenSignatureType !== "rosario" && (
+            {chosenSignatureType !== "rosario" && chosenSignatureType !== "badfoot" && (
               <div className="space-y-4 pt-4 border-t border-slate-100">
                 <div className="flex justify-between items-center mb-2">
                   <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Addresses</h2>
@@ -463,7 +527,7 @@ function App() {
             )}
 
             {/* Awards Section */}
-            {chosenSignatureType !== "rosario" && (
+            {chosenSignatureType !== "rosario" && chosenSignatureType !== "badfoot" && (
               <div className="space-y-4 pt-4 border-t border-slate-100">
                 <div className="flex justify-between items-center mb-2">
                   <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Awards</h2>
@@ -545,8 +609,8 @@ function App() {
               </div>
             )}
 
-            {/* Links Section (Smuggler only) */}
-            {chosenSignatureType === "smuggler" && (
+            {/* Links Section (Smuggler and Badfoot) */}
+            {(chosenSignatureType === "smuggler" || chosenSignatureType === "badfoot") && (
               <div className="space-y-4 pt-4 border-t border-slate-100">
                 <div className="flex justify-between items-center mb-2">
                   <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Links</h2>
@@ -559,7 +623,7 @@ function App() {
                     </button>
                     <button
                       onClick={() => {
-                        setSmugglerLinks([...smugglerLinks, { id: Date.now().toString(), label: "NEW LINK", url: "https://" }]);
+                        setCurrentLinks([...currentLinks, { id: Date.now().toString(), label: "NEW LINK", url: "https://" }]);
                       }}
                       className="flex items-center gap-1 text-indigo-600 hover:text-indigo-700 text-sm font-semibold transition-colors"
                     >
@@ -568,16 +632,16 @@ function App() {
                   </div>
                 </div>
                 <div className="flex flex-col gap-3">
-                  {smugglerLinks.map((item, index) => (
+                  {currentLinks.map((item, index) => (
                     <div key={item.id || index} className={`flex gap-2 items-start bg-slate-50 p-3 rounded-2xl border border-slate-100 group transition-all ${item.hidden ? 'opacity-50 grayscale' : ''}`}>
                       <div className="flex flex-col gap-2 flex-1">
                         <input
                           value={item?.label || ''}
                           placeholder="Link Label (e.g. INSTAGRAM)"
                           onChange={(e) => {
-                            const updated = [...smugglerLinks];
+                            const updated = [...currentLinks];
                             updated[index].label = e.target.value;
-                            setSmugglerLinks(updated);
+                            setCurrentLinks(updated);
                           }}
                           className="w-full px-3 py-1.5 text-sm font-semibold border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none uppercase"
                         />
@@ -585,25 +649,25 @@ function App() {
                           value={item?.url || ''}
                           placeholder="URL (e.g. https://...)"
                           onChange={(e) => {
-                            const updated = [...smugglerLinks];
+                            const updated = [...currentLinks];
                             updated[index].url = e.target.value;
-                            setSmugglerLinks(updated);
+                            setCurrentLinks(updated);
                           }}
                           className="w-full px-3 py-1.5 text-sm font-semibold text-indigo-600 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none"
                         />
                       </div>
                       
                       <div className="flex flex-col gap-1 items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity">
-                        <button onClick={() => toggleItemVisibility(index, smugglerLinks, setSmugglerLinks)} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md">
+                        <button onClick={() => toggleItemVisibility(index, currentLinks, setCurrentLinks)} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md">
                           {item.hidden ? <EyeOff size={16} /> : <Eye size={16} />}
                         </button>
-                        <button onClick={() => moveItemUp(index, smugglerLinks, setSmugglerLinks)} disabled={index === 0} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md disabled:opacity-30">
+                        <button onClick={() => moveItemUp(index, currentLinks, setCurrentLinks)} disabled={index === 0} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md disabled:opacity-30">
                           <ChevronUp size={16} />
                         </button>
-                        <button onClick={() => moveItemDown(index, smugglerLinks, setSmugglerLinks)} disabled={index === smugglerLinks.length - 1} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md disabled:opacity-30">
+                        <button onClick={() => moveItemDown(index, currentLinks, setCurrentLinks)} disabled={index === currentLinks.length - 1} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md disabled:opacity-30">
                           <ChevronDown size={16} />
                         </button>
-                        <button onClick={() => removeItem(index, smugglerLinks, setSmugglerLinks)} className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-md mt-1">
+                        <button onClick={() => removeItem(index, currentLinks, setCurrentLinks)} className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-md mt-1">
                           <Trash2 size={16} />
                         </button>
                       </div>
@@ -645,6 +709,8 @@ function App() {
                       ? d7_signatureHTML
                       : chosenSignatureType === "smuggler"
                       ? smuggler_signatureHTML
+                      : chosenSignatureType === "badfoot"
+                      ? badfoot_signatureHTML
                       : rosario_signatureHTML,
                 }}
               />

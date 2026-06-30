@@ -6,8 +6,6 @@ function App() {
   const [title, setTitle] = useState("XXXXXXX");
   
   // Test Email States
-  const [isTestingEmail, setIsTestingEmail] = useState(false);
-  const [testEmail, setTestEmail] = useState("");
   const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [emailSentStatus, setEmailSentStatus] = useState(null);
   const [emailSentMessage, setEmailSentMessage] = useState("");
@@ -388,8 +386,7 @@ function App() {
   };
 
   const handleSendEmail = async (e) => {
-    e.preventDefault();
-    if (!testEmail) return;
+    if (e && e.preventDefault) e.preventDefault();
 
     setIsSendingEmail(true);
     setEmailSentStatus(null);
@@ -403,7 +400,7 @@ function App() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          to: testEmail,
+          to: "test@example.com",
           html: getCurrentSignatureHTML(),
           subject: `${chosenSignatureType.toUpperCase()} Email Signature Test`,
         }),
@@ -421,7 +418,7 @@ function App() {
         setPreviewUrl(data.previewUrl);
       } else {
         setEmailSentStatus("success");
-        setEmailSentMessage(`Test email successfully sent to ${testEmail}!`);
+        setEmailSentMessage("Test email successfully sent to test@example.com!");
         setPreviewUrl("");
       }
     } catch (error) {
@@ -737,55 +734,46 @@ function App() {
           {/* Footer Actions */}
           <div className="bg-slate-50 p-6 border-t border-slate-100 shrink-0 flex flex-col gap-3">
             <div className="flex flex-col sm:flex-row gap-3">
-              {!isTestingEmail ? (
+              {isSendingEmail ? (
                 <button
                   type="button"
-                  onClick={() => setIsTestingEmail(true)}
+                  disabled
+                  className="flex-1 sm:flex-initial sm:w-1/3 flex items-center justify-center gap-2 h-14 bg-slate-100 text-slate-400 rounded-xl font-bold opacity-75 cursor-not-allowed"
+                >
+                  <Loader2 size={20} className="animate-spin text-slate-500" />
+                  <span>Sending...</span>
+                </button>
+              ) : previewUrl ? (
+                <div className="flex-1 sm:flex-initial sm:w-1/3 flex gap-2">
+                  <a
+                    href={previewUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-2 h-14 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold transition-all hover:scale-[1.01] active:scale-[0.99] shadow-lg shadow-emerald-600/20"
+                  >
+                    <Eye size={20} /> View
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPreviewUrl("");
+                      setEmailSentStatus(null);
+                      setEmailSentMessage("");
+                    }}
+                    className="w-14 h-14 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-xl flex items-center justify-center transition-colors shrink-0"
+                    title="Reset test"
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleSendEmail}
                   className="flex-1 sm:flex-initial sm:w-1/3 flex items-center justify-center gap-2 h-14 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition-all hover:scale-[1.01] active:scale-[0.99]"
                 >
                   <Mail size={20} /> Test
                 </button>
-              ) : (
-                <form onSubmit={handleSendEmail} className="flex-1 sm:flex-[2] flex gap-2">
-                  <input
-                    type="email"
-                    required
-                    placeholder="Enter email for live test..."
-                    value={testEmail}
-                    onChange={(e) => setTestEmail(e.target.value)}
-                    disabled={isSendingEmail}
-                    className="flex-1 min-w-0 border border-slate-200 px-4 h-14 rounded-xl bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all text-sm"
-                  />
-                  <button
-                    type="submit"
-                    disabled={isSendingEmail}
-                    className="px-4 h-14 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-sm whitespace-nowrap"
-                  >
-                    {isSendingEmail ? (
-                      <>
-                        <Loader2 size={16} className="animate-spin" />
-                        <span>Sending...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Send size={16} />
-                        <span>Send</span>
-                      </>
-                    )}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsTestingEmail(false);
-                      setEmailSentStatus(null);
-                      setPreviewUrl("");
-                    }}
-                    disabled={isSendingEmail}
-                    className="w-14 h-14 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-xl flex items-center justify-center transition-colors shrink-0"
-                  >
-                    <X size={18} />
-                  </button>
-                </form>
               )}
 
               <button
@@ -796,8 +784,8 @@ function App() {
               </button>
             </div>
 
-            {/* Email Sent Status Banner */}
-            {emailSentStatus && (
+            {/* Email Sent Status Banner (Show on error, or success without a preview link) */}
+            {((emailSentStatus === "error") || (emailSentStatus === "success" && !previewUrl)) && (
               <div className={`p-3.5 rounded-xl text-xs font-semibold flex items-center justify-between gap-3 border transition-all duration-200 ${
                 emailSentStatus === "success"
                   ? "bg-emerald-50 border-emerald-100 text-emerald-800"
@@ -810,22 +798,11 @@ function App() {
                     <AlertCircle size={16} className="text-rose-600 shrink-0" />
                   )}
                   <span className="truncate">{emailSentMessage}</span>
-                  {previewUrl && (
-                    <a
-                      href={previewUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 underline font-bold text-indigo-600 hover:text-indigo-800 focus:outline-none"
-                    >
-                      View Live Email ↗
-                    </a>
-                  )}
                 </div>
                 <button
                   type="button"
                   onClick={() => {
                     setEmailSentStatus(null);
-                    setPreviewUrl("");
                   }}
                   className="text-slate-400 hover:text-slate-600 shrink-0 transition-colors"
                 >

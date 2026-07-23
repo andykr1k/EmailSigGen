@@ -4,7 +4,7 @@ import { ChevronUp, ChevronDown, Trash2, Plus, Download, Eye, EyeOff, CheckCircl
 function App() {
   const [name, setName] = useState("XXXXX XXXXXXX");
   const [title, setTitle] = useState("XXXXXXX");
-  
+
   // Test Email States
   const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [emailSentStatus, setEmailSentStatus] = useState(null);
@@ -67,7 +67,7 @@ function App() {
   const setCurrentAwards = chosenSignatureType === "d7" ? setD7Awards : setSmugglerAwards;
 
   const currentLinks = chosenSignatureType === "smuggler" ? smugglerLinks : chosenSignatureType === "badfoot" ? badfootLinks : [];
-  const setCurrentLinks = chosenSignatureType === "smuggler" ? setSmugglerLinks : chosenSignatureType === "badfoot" ? setBadfootLinks : () => {};
+  const setCurrentLinks = chosenSignatureType === "smuggler" ? setSmugglerLinks : chosenSignatureType === "badfoot" ? setBadfootLinks : () => { };
 
   const moveItemUp = (index, list, setList) => {
     if (index === 0) return;
@@ -94,7 +94,7 @@ function App() {
   };
 
   const addAddress = () => {
-    const newAddress = chosenSignatureType === "smuggler" 
+    const newAddress = chosenSignatureType === "smuggler"
       ? { id: Date.now().toString(), city: "CITY", text: "New Address" }
       : { id: Date.now().toString(), text: "New Address" };
     setCurrentAddresses([...currentAddresses, newAddress]);
@@ -322,8 +322,8 @@ function App() {
              alt="BADFOOT" 
              border="0" 
              width="150"
-             height="40"
-             style="width: 150px; height: 40px; display: block;">
+             height="30"
+             style="width: 150px; height: 30px; display: block;">
       </a>
     </td>
   </tr>
@@ -365,10 +365,10 @@ function App() {
     return chosenSignatureType === "d7"
       ? d7_signatureHTML
       : chosenSignatureType === "smuggler"
-      ? smuggler_signatureHTML
-      : chosenSignatureType === "badfoot"
-      ? badfoot_signatureHTML
-      : rosario_signatureHTML;
+        ? smuggler_signatureHTML
+        : chosenSignatureType === "badfoot"
+          ? badfoot_signatureHTML
+          : rosario_signatureHTML;
   };
 
   const handleDownload = () => {
@@ -433,388 +433,386 @@ function App() {
   return (
     <div className="h-screen w-screen overflow-hidden bg-slate-50 text-slate-900 font-sans p-4 md:p-6 lg:p-8 flex items-center justify-center">
       <div className="w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row gap-8 h-full">
-        
+
         {/* Left Side: Form Controls */}
         <div className="w-full lg:w-1/2 flex flex-col gap-4 h-full">
-          
+
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-slate-800 tracking-tight">Signature Settings</h2>
           </div>
 
           <div className="bg-white shadow-xl shadow-slate-200/50 rounded-3xl border border-slate-100 flex flex-col flex-1 overflow-hidden">
-            
+
             {/* Header/Tabs */}
             <div className="bg-slate-100/50 p-6 border-b border-slate-100 shrink-0">
               <div className="flex bg-slate-200 p-1 rounded-2xl w-full">
-              {['smuggler', 'd7', 'rosario', 'badfoot'].map((type) => (
-                <button
-                  key={type}
-                  onClick={() => setChosenSignatureType(type)}
-                  className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-semibold transition-all duration-200 ${
-                    chosenSignatureType === type 
-                      ? "bg-white text-indigo-600 shadow-sm" 
-                      : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
-                  }`}
-                >
-                  {type.toUpperCase()}
-                </button>
-              ))}
-            </div>
+                {['smuggler', 'd7', 'rosario', 'badfoot'].map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => setChosenSignatureType(type)}
+                    className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-semibold transition-all duration-200 ${chosenSignatureType === type
+                        ? "bg-white text-indigo-600 shadow-sm"
+                        : "text-slate-500 hover:text-slate-700 hover:bg-slate-200/50"
+                      }`}
+                  >
+                    {type.toUpperCase()}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div className="p-6 space-y-8 overflow-y-auto flex-1">
-            
-            {/* Basic Info Section */}
-            <div className="space-y-4">
-              <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2">Personal Details</h2>
-              <div>
-                <div className="flex justify-between items-center mb-1">
-                  <label className="block text-sm font-semibold text-slate-700">Name</label>
-                  <button onClick={() => setShowName(!showName)} className="text-slate-400 hover:text-indigo-600 transition-colors flex items-center gap-1 text-xs font-semibold">
-                    {showName ? <EyeOff size={14}/> : <Eye size={14}/>} {showName ? "Hide" : "Show"}
-                  </button>
-                </div>
-                <input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full border border-slate-200 px-4 py-2.5 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all"
-                />
-              </div>
 
-              <div>
-                <div className="flex justify-between items-center mb-1">
-                  <label className="block text-sm font-semibold text-slate-700">Title</label>
-                  <button onClick={() => setShowTitle(!showTitle)} className="text-slate-400 hover:text-indigo-600 transition-colors flex items-center gap-1 text-xs font-semibold">
-                    {showTitle ? <EyeOff size={14}/> : <Eye size={14}/>} {showTitle ? "Hide" : "Show"}
-                  </button>
-                </div>
-                <input
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="w-full border border-slate-200 px-4 py-2.5 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all"
-                />
-              </div>
-
-              <div>
-                <div className="flex justify-between items-center mb-1">
-                  <label className="block text-sm font-semibold text-slate-700">Phone</label>
-                  <button onClick={() => setShowPhoneNumber(!showPhoneNumber)} className="text-slate-400 hover:text-indigo-600 transition-colors flex items-center gap-1 text-xs font-semibold">
-                    {showPhoneNumber ? <EyeOff size={14}/> : <Eye size={14}/>} {showPhoneNumber ? "Hide" : "Show"}
-                  </button>
-                </div>
-                <input
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full border border-slate-200 px-4 py-2.5 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all"
-                />
-              </div>
-            </div>
-
-            {/* Addresses Section */}
-            {chosenSignatureType !== "rosario" && chosenSignatureType !== "badfoot" && (
-              <div className="space-y-4 pt-4 border-t border-slate-100">
-                <div className="flex justify-between items-center mb-2">
-                  <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Addresses</h2>
-                  <div className="flex gap-4">
-                    <button
-                      onClick={() => setShowAddresses(!showAddresses)}
-                      className="text-slate-400 hover:text-indigo-600 transition-colors flex items-center gap-1 text-xs font-semibold"
-                    >
-                      {showAddresses ? <EyeOff size={14}/> : <Eye size={14}/>} {showAddresses ? "Hide" : "Show"}
-                    </button>
-                    <button
-                      onClick={addAddress}
-                      className="flex items-center gap-1 text-indigo-600 hover:text-indigo-700 text-sm font-semibold transition-colors"
-                    >
-                      <Plus size={16} /> Add
+              {/* Basic Info Section */}
+              <div className="space-y-4">
+                <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2">Personal Details</h2>
+                <div>
+                  <div className="flex justify-between items-center mb-1">
+                    <label className="block text-sm font-semibold text-slate-700">Name</label>
+                    <button onClick={() => setShowName(!showName)} className="text-slate-400 hover:text-indigo-600 transition-colors flex items-center gap-1 text-xs font-semibold">
+                      {showName ? <EyeOff size={14} /> : <Eye size={14} />} {showName ? "Hide" : "Show"}
                     </button>
                   </div>
+                  <input
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full border border-slate-200 px-4 py-2.5 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all"
+                  />
                 </div>
-                <div className="flex flex-col gap-3">
-                  {currentAddresses.map((item, index) => (
-                    <div key={item.id || index} className={`flex gap-2 items-start bg-slate-50 p-3 rounded-2xl border border-slate-100 group transition-all ${item.hidden ? 'opacity-50 grayscale' : ''}`}>
-                      <div className="flex flex-col gap-2 flex-1">
-                        {chosenSignatureType === "smuggler" && (
-                          <input
-                            value={item?.city || ''}
-                            placeholder="City/Region"
+
+                <div>
+                  <div className="flex justify-between items-center mb-1">
+                    <label className="block text-sm font-semibold text-slate-700">Title</label>
+                    <button onClick={() => setShowTitle(!showTitle)} className="text-slate-400 hover:text-indigo-600 transition-colors flex items-center gap-1 text-xs font-semibold">
+                      {showTitle ? <EyeOff size={14} /> : <Eye size={14} />} {showTitle ? "Hide" : "Show"}
+                    </button>
+                  </div>
+                  <input
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="w-full border border-slate-200 px-4 py-2.5 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all"
+                  />
+                </div>
+
+                <div>
+                  <div className="flex justify-between items-center mb-1">
+                    <label className="block text-sm font-semibold text-slate-700">Phone</label>
+                    <button onClick={() => setShowPhoneNumber(!showPhoneNumber)} className="text-slate-400 hover:text-indigo-600 transition-colors flex items-center gap-1 text-xs font-semibold">
+                      {showPhoneNumber ? <EyeOff size={14} /> : <Eye size={14} />} {showPhoneNumber ? "Hide" : "Show"}
+                    </button>
+                  </div>
+                  <input
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="w-full border border-slate-200 px-4 py-2.5 rounded-xl bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all"
+                  />
+                </div>
+              </div>
+
+              {/* Addresses Section */}
+              {chosenSignatureType !== "rosario" && chosenSignatureType !== "badfoot" && (
+                <div className="space-y-4 pt-4 border-t border-slate-100">
+                  <div className="flex justify-between items-center mb-2">
+                    <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Addresses</h2>
+                    <div className="flex gap-4">
+                      <button
+                        onClick={() => setShowAddresses(!showAddresses)}
+                        className="text-slate-400 hover:text-indigo-600 transition-colors flex items-center gap-1 text-xs font-semibold"
+                      >
+                        {showAddresses ? <EyeOff size={14} /> : <Eye size={14} />} {showAddresses ? "Hide" : "Show"}
+                      </button>
+                      <button
+                        onClick={addAddress}
+                        className="flex items-center gap-1 text-indigo-600 hover:text-indigo-700 text-sm font-semibold transition-colors"
+                      >
+                        <Plus size={16} /> Add
+                      </button>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-3">
+                    {currentAddresses.map((item, index) => (
+                      <div key={item.id || index} className={`flex gap-2 items-start bg-slate-50 p-3 rounded-2xl border border-slate-100 group transition-all ${item.hidden ? 'opacity-50 grayscale' : ''}`}>
+                        <div className="flex flex-col gap-2 flex-1">
+                          {chosenSignatureType === "smuggler" && (
+                            <input
+                              value={item?.city || ''}
+                              placeholder="City/Region"
+                              onChange={(e) => {
+                                const updated = [...currentAddresses];
+                                updated[index].city = e.target.value;
+                                setCurrentAddresses(updated);
+                              }}
+                              className="w-1/3 px-3 py-1.5 text-sm font-semibold border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none"
+                            />
+                          )}
+                          <textarea
+                            value={item.text}
+                            placeholder="Address Details"
                             onChange={(e) => {
                               const updated = [...currentAddresses];
-                              updated[index].city = e.target.value;
+                              updated[index].text = e.target.value;
                               setCurrentAddresses(updated);
                             }}
-                            className="w-1/3 px-3 py-1.5 text-sm font-semibold border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none"
+                            className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none resize-none"
+                            rows={2}
                           />
-                        )}
-                        <textarea
-                          value={item.text}
-                          placeholder="Address Details"
-                          onChange={(e) => {
-                            const updated = [...currentAddresses];
-                            updated[index].text = e.target.value;
-                            setCurrentAddresses(updated);
-                          }}
-                          className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none resize-none"
-                          rows={2}
-                        />
-                      </div>
-                      
-                      <div className="flex flex-col gap-1 items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity">
-                        <button onClick={() => toggleItemVisibility(index, currentAddresses, setCurrentAddresses)} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md">
-                          {item.hidden ? <EyeOff size={16} /> : <Eye size={16} />}
-                        </button>
-                        <button onClick={() => moveItemUp(index, currentAddresses, setCurrentAddresses)} disabled={index === 0} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md disabled:opacity-30">
-                          <ChevronUp size={16} />
-                        </button>
-                        <button onClick={() => moveItemDown(index, currentAddresses, setCurrentAddresses)} disabled={index === currentAddresses.length - 1} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md disabled:opacity-30">
-                          <ChevronDown size={16} />
-                        </button>
-                        <button onClick={() => removeItem(index, currentAddresses, setCurrentAddresses)} disabled={currentAddresses.length === 1} className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-md disabled:opacity-30 mt-1">
-                          <Trash2 size={16} />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+                        </div>
 
-            {/* Awards Section */}
-            {chosenSignatureType !== "rosario" && chosenSignatureType !== "badfoot" && (
-              <div className="space-y-4 pt-4 border-t border-slate-100">
-                <div className="flex justify-between items-center mb-2">
-                  <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Awards</h2>
-                  <div className="flex gap-4">
-                    <button
-                      onClick={() => setShowAwards(!showAwards)}
-                      className="text-slate-400 hover:text-indigo-600 transition-colors flex items-center gap-1 text-xs font-semibold"
-                    >
-                      {showAwards ? <EyeOff size={14}/> : <Eye size={14}/>} {showAwards ? "Hide" : "Show"}
-                    </button>
-                    <button
-                      onClick={addAward}
-                      className="flex items-center gap-1 text-indigo-600 hover:text-indigo-700 text-sm font-semibold transition-colors"
-                    >
-                      <Plus size={16} /> Add
-                    </button>
+                        <div className="flex flex-col gap-1 items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity">
+                          <button onClick={() => toggleItemVisibility(index, currentAddresses, setCurrentAddresses)} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md">
+                            {item.hidden ? <EyeOff size={16} /> : <Eye size={16} />}
+                          </button>
+                          <button onClick={() => moveItemUp(index, currentAddresses, setCurrentAddresses)} disabled={index === 0} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md disabled:opacity-30">
+                            <ChevronUp size={16} />
+                          </button>
+                          <button onClick={() => moveItemDown(index, currentAddresses, setCurrentAddresses)} disabled={index === currentAddresses.length - 1} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md disabled:opacity-30">
+                            <ChevronDown size={16} />
+                          </button>
+                          <button onClick={() => removeItem(index, currentAddresses, setCurrentAddresses)} disabled={currentAddresses.length === 1} className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-md disabled:opacity-30 mt-1">
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-                <div className="flex flex-col gap-3">
-                  {currentAwards.map((item, index) => (
-                    <div key={item.id || index} className={`flex gap-2 items-start bg-slate-50 p-3 rounded-2xl border border-slate-100 group transition-all ${item.hidden ? 'opacity-50 grayscale' : ''}`}>
-                      <div className="flex flex-col gap-2 flex-1">
-                        {chosenSignatureType === "smuggler" ? (
-                          <>
-                            <input
-                              value={item?.prefix || ''}
-                              placeholder="Award Name (e.g. British Arrows )"
-                              onChange={(e) => {
-                                const updated = [...currentAwards];
-                                updated[index].prefix = e.target.value;
-                                setCurrentAwards(updated);
-                              }}
-                              className="w-full px-3 py-1.5 text-sm font-semibold border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none"
-                            />
+              )}
+
+              {/* Awards Section */}
+              {chosenSignatureType !== "rosario" && chosenSignatureType !== "badfoot" && (
+                <div className="space-y-4 pt-4 border-t border-slate-100">
+                  <div className="flex justify-between items-center mb-2">
+                    <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Awards</h2>
+                    <div className="flex gap-4">
+                      <button
+                        onClick={() => setShowAwards(!showAwards)}
+                        className="text-slate-400 hover:text-indigo-600 transition-colors flex items-center gap-1 text-xs font-semibold"
+                      >
+                        {showAwards ? <EyeOff size={14} /> : <Eye size={14} />} {showAwards ? "Hide" : "Show"}
+                      </button>
+                      <button
+                        onClick={addAward}
+                        className="flex items-center gap-1 text-indigo-600 hover:text-indigo-700 text-sm font-semibold transition-colors"
+                      >
+                        <Plus size={16} /> Add
+                      </button>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-3">
+                    {currentAwards.map((item, index) => (
+                      <div key={item.id || index} className={`flex gap-2 items-start bg-slate-50 p-3 rounded-2xl border border-slate-100 group transition-all ${item.hidden ? 'opacity-50 grayscale' : ''}`}>
+                        <div className="flex flex-col gap-2 flex-1">
+                          {chosenSignatureType === "smuggler" ? (
+                            <>
+                              <input
+                                value={item?.prefix || ''}
+                                placeholder="Award Name (e.g. British Arrows )"
+                                onChange={(e) => {
+                                  const updated = [...currentAwards];
+                                  updated[index].prefix = e.target.value;
+                                  setCurrentAwards(updated);
+                                }}
+                                className="w-full px-3 py-1.5 text-sm font-semibold border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none"
+                              />
+                              <textarea
+                                value={item?.suffix || ''}
+                                placeholder="Details (e.g. 2025 Production Company of the Year)"
+                                onChange={(e) => {
+                                  const updated = [...currentAwards];
+                                  updated[index].suffix = e.target.value;
+                                  setCurrentAwards(updated);
+                                }}
+                                className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none resize-none"
+                                rows={2}
+                              />
+                            </>
+                          ) : (
                             <textarea
-                              value={item?.suffix || ''}
-                              placeholder="Details (e.g. 2025 Production Company of the Year)"
+                              value={item.text}
+                              placeholder="Award Details"
                               onChange={(e) => {
                                 const updated = [...currentAwards];
-                                updated[index].suffix = e.target.value;
+                                updated[index].text = e.target.value;
                                 setCurrentAwards(updated);
                               }}
                               className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none resize-none"
                               rows={2}
                             />
-                          </>
-                        ) : (
-                          <textarea
-                            value={item.text}
-                            placeholder="Award Details"
-                            onChange={(e) => {
-                              const updated = [...currentAwards];
-                              updated[index].text = e.target.value;
-                              setCurrentAwards(updated);
-                            }}
-                            className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none resize-none"
-                            rows={2}
-                          />
-                        )}
-                      </div>
-                      
-                      <div className="flex flex-col gap-1 items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity">
-                        <button onClick={() => toggleItemVisibility(index, currentAwards, setCurrentAwards)} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md">
-                          {item.hidden ? <EyeOff size={16} /> : <Eye size={16} />}
-                        </button>
-                        <button onClick={() => moveItemUp(index, currentAwards, setCurrentAwards)} disabled={index === 0} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md disabled:opacity-30">
-                          <ChevronUp size={16} />
-                        </button>
-                        <button onClick={() => moveItemDown(index, currentAwards, setCurrentAwards)} disabled={index === currentAwards.length - 1} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md disabled:opacity-30">
-                          <ChevronDown size={16} />
-                        </button>
-                        <button onClick={() => removeItem(index, currentAwards, setCurrentAwards)} className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-md mt-1">
-                          <Trash2 size={16} />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+                          )}
+                        </div>
 
-            {/* Links Section (Smuggler and Badfoot) */}
-            {(chosenSignatureType === "smuggler" || chosenSignatureType === "badfoot") && (
-              <div className="space-y-4 pt-4 border-t border-slate-100">
-                <div className="flex justify-between items-center mb-2">
-                  <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Links</h2>
-                  <div className="flex gap-4">
-                    <button
-                      onClick={() => setShowLinks(!showLinks)}
-                      className="text-slate-400 hover:text-indigo-600 transition-colors flex items-center gap-1 text-xs font-semibold"
-                    >
-                      {showLinks ? <EyeOff size={14}/> : <Eye size={14}/>} {showLinks ? "Hide" : "Show"}
-                    </button>
-                    <button
-                      onClick={() => {
-                        setCurrentLinks([...currentLinks, { id: Date.now().toString(), label: "NEW LINK", url: "https://" }]);
-                      }}
-                      className="flex items-center gap-1 text-indigo-600 hover:text-indigo-700 text-sm font-semibold transition-colors"
-                    >
-                      <Plus size={16} /> Add
-                    </button>
+                        <div className="flex flex-col gap-1 items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity">
+                          <button onClick={() => toggleItemVisibility(index, currentAwards, setCurrentAwards)} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md">
+                            {item.hidden ? <EyeOff size={16} /> : <Eye size={16} />}
+                          </button>
+                          <button onClick={() => moveItemUp(index, currentAwards, setCurrentAwards)} disabled={index === 0} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md disabled:opacity-30">
+                            <ChevronUp size={16} />
+                          </button>
+                          <button onClick={() => moveItemDown(index, currentAwards, setCurrentAwards)} disabled={index === currentAwards.length - 1} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md disabled:opacity-30">
+                            <ChevronDown size={16} />
+                          </button>
+                          <button onClick={() => removeItem(index, currentAwards, setCurrentAwards)} className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-md mt-1">
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-                <div className="flex flex-col gap-3">
-                  {currentLinks.map((item, index) => (
-                    <div key={item.id || index} className={`flex gap-2 items-start bg-slate-50 p-3 rounded-2xl border border-slate-100 group transition-all ${item.hidden ? 'opacity-50 grayscale' : ''}`}>
-                      <div className="flex flex-col gap-2 flex-1">
-                        <input
-                          value={item?.label || ''}
-                          placeholder="Link Label (e.g. INSTAGRAM)"
-                          onChange={(e) => {
-                            const updated = [...currentLinks];
-                            updated[index].label = e.target.value;
-                            setCurrentLinks(updated);
-                          }}
-                          className="w-full px-3 py-1.5 text-sm font-semibold border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none uppercase"
-                        />
-                        <input
-                          value={item?.url || ''}
-                          placeholder="URL (e.g. https://...)"
-                          onChange={(e) => {
-                            const updated = [...currentLinks];
-                            updated[index].url = e.target.value;
-                            setCurrentLinks(updated);
-                          }}
-                          className="w-full px-3 py-1.5 text-sm font-semibold text-indigo-600 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none"
-                        />
-                      </div>
-                      
-                      <div className="flex flex-col gap-1 items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity">
-                        <button onClick={() => toggleItemVisibility(index, currentLinks, setCurrentLinks)} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md">
-                          {item.hidden ? <EyeOff size={16} /> : <Eye size={16} />}
-                        </button>
-                        <button onClick={() => moveItemUp(index, currentLinks, setCurrentLinks)} disabled={index === 0} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md disabled:opacity-30">
-                          <ChevronUp size={16} />
-                        </button>
-                        <button onClick={() => moveItemDown(index, currentLinks, setCurrentLinks)} disabled={index === currentLinks.length - 1} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md disabled:opacity-30">
-                          <ChevronDown size={16} />
-                        </button>
-                        <button onClick={() => removeItem(index, currentLinks, setCurrentLinks)} className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-md mt-1">
-                          <Trash2 size={16} />
-                        </button>
-                      </div>
+              )}
+
+              {/* Links Section (Smuggler and Badfoot) */}
+              {(chosenSignatureType === "smuggler" || chosenSignatureType === "badfoot") && (
+                <div className="space-y-4 pt-4 border-t border-slate-100">
+                  <div className="flex justify-between items-center mb-2">
+                    <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider">Links</h2>
+                    <div className="flex gap-4">
+                      <button
+                        onClick={() => setShowLinks(!showLinks)}
+                        className="text-slate-400 hover:text-indigo-600 transition-colors flex items-center gap-1 text-xs font-semibold"
+                      >
+                        {showLinks ? <EyeOff size={14} /> : <Eye size={14} />} {showLinks ? "Hide" : "Show"}
+                      </button>
+                      <button
+                        onClick={() => {
+                          setCurrentLinks([...currentLinks, { id: Date.now().toString(), label: "NEW LINK", url: "https://" }]);
+                        }}
+                        className="flex items-center gap-1 text-indigo-600 hover:text-indigo-700 text-sm font-semibold transition-colors"
+                      >
+                        <Plus size={16} /> Add
+                      </button>
                     </div>
-                  ))}
+                  </div>
+                  <div className="flex flex-col gap-3">
+                    {currentLinks.map((item, index) => (
+                      <div key={item.id || index} className={`flex gap-2 items-start bg-slate-50 p-3 rounded-2xl border border-slate-100 group transition-all ${item.hidden ? 'opacity-50 grayscale' : ''}`}>
+                        <div className="flex flex-col gap-2 flex-1">
+                          <input
+                            value={item?.label || ''}
+                            placeholder="Link Label (e.g. INSTAGRAM)"
+                            onChange={(e) => {
+                              const updated = [...currentLinks];
+                              updated[index].label = e.target.value;
+                              setCurrentLinks(updated);
+                            }}
+                            className="w-full px-3 py-1.5 text-sm font-semibold border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none uppercase"
+                          />
+                          <input
+                            value={item?.url || ''}
+                            placeholder="URL (e.g. https://...)"
+                            onChange={(e) => {
+                              const updated = [...currentLinks];
+                              updated[index].url = e.target.value;
+                              setCurrentLinks(updated);
+                            }}
+                            className="w-full px-3 py-1.5 text-sm font-semibold text-indigo-600 border border-slate-200 rounded-lg bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none"
+                          />
+                        </div>
+
+                        <div className="flex flex-col gap-1 items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity">
+                          <button onClick={() => toggleItemVisibility(index, currentLinks, setCurrentLinks)} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md">
+                            {item.hidden ? <EyeOff size={16} /> : <Eye size={16} />}
+                          </button>
+                          <button onClick={() => moveItemUp(index, currentLinks, setCurrentLinks)} disabled={index === 0} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md disabled:opacity-30">
+                            <ChevronUp size={16} />
+                          </button>
+                          <button onClick={() => moveItemDown(index, currentLinks, setCurrentLinks)} disabled={index === currentLinks.length - 1} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-md disabled:opacity-30">
+                            <ChevronDown size={16} />
+                          </button>
+                          <button onClick={() => removeItem(index, currentLinks, setCurrentLinks)} className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-md mt-1">
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
-          
-          {/* Footer Actions */}
-          <div className="bg-slate-50 p-6 border-t border-slate-100 shrink-0 flex flex-col gap-3">
-            <div className="flex flex-col sm:flex-row gap-3">
-              {isSendingEmail ? (
-                <button
-                  type="button"
-                  disabled
-                  className="flex-1 sm:flex-initial sm:w-1/3 flex items-center justify-center gap-2 h-14 bg-slate-100 text-slate-400 rounded-xl font-bold opacity-75 cursor-not-allowed"
-                >
-                  <Loader2 size={20} className="animate-spin text-slate-500" />
-                  <span>Sending...</span>
-                </button>
-              ) : previewUrl ? (
-                <div className="flex-1 sm:flex-initial sm:w-1/3 flex gap-2">
-                  <a
-                    href={previewUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 h-14 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold transition-all hover:scale-[1.01] active:scale-[0.99] shadow-lg shadow-emerald-600/20"
+              )}
+            </div>
+
+            {/* Footer Actions */}
+            <div className="bg-slate-50 p-6 border-t border-slate-100 shrink-0 flex flex-col gap-3">
+              <div className="flex flex-col sm:flex-row gap-3">
+                {isSendingEmail ? (
+                  <button
+                    type="button"
+                    disabled
+                    className="flex-1 sm:flex-initial sm:w-1/3 flex items-center justify-center gap-2 h-14 bg-slate-100 text-slate-400 rounded-xl font-bold opacity-75 cursor-not-allowed"
                   >
-                    <Eye size={20} /> View
-                  </a>
+                    <Loader2 size={20} className="animate-spin text-slate-500" />
+                    <span>Sending...</span>
+                  </button>
+                ) : previewUrl ? (
+                  <div className="flex-1 sm:flex-initial sm:w-1/3 flex gap-2">
+                    <a
+                      href={previewUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 flex items-center justify-center gap-2 h-14 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold transition-all hover:scale-[1.01] active:scale-[0.99] shadow-lg shadow-emerald-600/20"
+                    >
+                      <Eye size={20} /> View
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPreviewUrl("");
+                        setEmailSentStatus(null);
+                        setEmailSentMessage("");
+                      }}
+                      className="w-14 h-14 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-xl flex items-center justify-center transition-colors shrink-0"
+                      title="Reset test"
+                    >
+                      <X size={18} />
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleSendEmail}
+                    className="flex-1 sm:flex-initial sm:w-1/3 flex items-center justify-center gap-2 h-14 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition-all hover:scale-[1.01] active:scale-[0.99]"
+                  >
+                    <Mail size={20} /> Test
+                  </button>
+                )}
+
+                <button
+                  onClick={handleDownload}
+                  className="flex-1 flex items-center justify-center gap-2 h-14 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-lg shadow-indigo-600/30 transition-all hover:scale-[1.01] active:scale-[0.99]"
+                >
+                  <Download size={20} /> Download
+                </button>
+              </div>
+
+              {/* Email Sent Status Banner (Show on error, or success without a preview link) */}
+              {((emailSentStatus === "error") || (emailSentStatus === "success" && !previewUrl)) && (
+                <div className={`p-3.5 rounded-xl text-xs font-semibold flex items-center justify-between gap-3 border transition-all duration-200 ${emailSentStatus === "success"
+                    ? "bg-emerald-50 border-emerald-100 text-emerald-800"
+                    : "bg-rose-50 border-rose-100 text-rose-800"
+                  }`}>
+                  <div className="flex items-center gap-2 flex-wrap min-w-0">
+                    {emailSentStatus === "success" ? (
+                      <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+                    ) : (
+                      <AlertCircle size={16} className="text-rose-600 shrink-0" />
+                    )}
+                    <span className="truncate">{emailSentMessage}</span>
+                  </div>
                   <button
                     type="button"
                     onClick={() => {
-                      setPreviewUrl("");
                       setEmailSentStatus(null);
-                      setEmailSentMessage("");
                     }}
-                    className="w-14 h-14 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-xl flex items-center justify-center transition-colors shrink-0"
-                    title="Reset test"
+                    className="text-slate-400 hover:text-slate-600 shrink-0 transition-colors"
                   >
-                    <X size={18} />
+                    <X size={14} />
                   </button>
                 </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleSendEmail}
-                  className="flex-1 sm:flex-initial sm:w-1/3 flex items-center justify-center gap-2 h-14 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition-all hover:scale-[1.01] active:scale-[0.99]"
-                >
-                  <Mail size={20} /> Test
-                </button>
               )}
-
-              <button
-                onClick={handleDownload}
-                className="flex-1 flex items-center justify-center gap-2 h-14 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-lg shadow-indigo-600/30 transition-all hover:scale-[1.01] active:scale-[0.99]"
-              >
-                <Download size={20} /> Download
-              </button>
             </div>
-
-            {/* Email Sent Status Banner (Show on error, or success without a preview link) */}
-            {((emailSentStatus === "error") || (emailSentStatus === "success" && !previewUrl)) && (
-              <div className={`p-3.5 rounded-xl text-xs font-semibold flex items-center justify-between gap-3 border transition-all duration-200 ${
-                emailSentStatus === "success"
-                  ? "bg-emerald-50 border-emerald-100 text-emerald-800"
-                  : "bg-rose-50 border-rose-100 text-rose-800"
-              }`}>
-                <div className="flex items-center gap-2 flex-wrap min-w-0">
-                  {emailSentStatus === "success" ? (
-                    <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
-                  ) : (
-                    <AlertCircle size={16} className="text-rose-600 shrink-0" />
-                  )}
-                  <span className="truncate">{emailSentMessage}</span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setEmailSentStatus(null);
-                  }}
-                  className="text-slate-400 hover:text-slate-600 shrink-0 transition-colors"
-                >
-                  <X size={14} />
-                </button>
-              </div>
-            )}
           </div>
         </div>
-      </div>
 
-      {/* Right Side: Preview */}
+        {/* Right Side: Preview */}
         <div className="w-full lg:w-1/2 flex flex-col gap-4 h-full">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-slate-800 tracking-tight">Live Preview</h2>
@@ -822,7 +820,7 @@ function App() {
               <CheckCircle2 size={14} /> Auto-updating
             </span>
           </div>
-          
+
           <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 p-8 flex flex-1 overflow-auto">
             <div className="w-full min-h-full flex justify-center items-start pt-12 pb-24">
               <div
@@ -832,10 +830,10 @@ function App() {
                     chosenSignatureType === "d7"
                       ? d7_signatureHTML
                       : chosenSignatureType === "smuggler"
-                      ? smuggler_signatureHTML
-                      : chosenSignatureType === "badfoot"
-                      ? badfoot_signatureHTML
-                      : rosario_signatureHTML,
+                        ? smuggler_signatureHTML
+                        : chosenSignatureType === "badfoot"
+                          ? badfoot_signatureHTML
+                          : rosario_signatureHTML,
                 }}
               />
             </div>
@@ -848,7 +846,7 @@ function App() {
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-all">
           <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl shadow-indigo-900/20 transform transition-all">
             <h2 className="text-2xl font-bold mb-6 text-slate-800">Ready to use! 🎉</h2>
-            
+
             <div className="space-y-6">
               <div>
                 <p className="font-bold text-slate-800 mb-2 flex items-center gap-2">
@@ -862,7 +860,7 @@ function App() {
                   <li>Open the downloaded file in a browser, copy all, and paste</li>
                 </ol>
               </div>
-              
+
               <div>
                 <p className="font-bold text-slate-800 mb-2 flex items-center gap-2">
                   <span className="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xs">O</span>

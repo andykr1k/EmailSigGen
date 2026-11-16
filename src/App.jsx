@@ -121,7 +121,9 @@ function App() {
     const m = text.match(/^(.*?)(\s*\|?\s*)(\+[\d\s()]+)$/);
     const address = m ? m[1] : text;
     const href = `https://www.google.com/maps/search/?api=1&amp;query=${encodeURIComponent(address)}`;
-    const link = `<a href="${href}" target="_blank" style="color:${color}; text-decoration:none;">${escapeHtml(address)}</a>`;
+    // Zero-width non-joiners stop Gmail/Apple address detection from re-styling the link blue
+    const text_ = [...address].map(escapeHtml).join('&zwnj;');
+    const link = `<a href="${href}" target="_blank" style="color:${color}; text-decoration:none;"><span style="color:${color}; text-decoration:none;">${text_}</span></a>`;
     return m ? `${link}${escapeHtml(m[2])}${phoneLink(m[3], color)}` : link;
   };
 

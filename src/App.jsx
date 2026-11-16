@@ -113,6 +113,18 @@ function App() {
     return div.innerHTML;
   };
 
+  // Explicit styled links so Gmail/Apple Mail don't auto-link them in default blue
+  const phoneLink = (phone, color) =>
+    `<a href="tel:${phone.replace(/\(0\)/, '').replace(/[^\d+]/g, '')}" style="color:${color}; text-decoration:none;">${escapeHtml(phone)}</a>`;
+
+  const addressLink = (text, color) => {
+    const m = text.match(/^(.*?)(\s*\|?\s*)(\+[\d\s()]+)$/);
+    const address = m ? m[1] : text;
+    const href = `https://www.google.com/maps/search/?api=1&amp;query=${encodeURIComponent(address)}`;
+    const link = `<a href="${href}" target="_blank" style="color:${color}; text-decoration:none;">${escapeHtml(address)}</a>`;
+    return m ? `${link}${escapeHtml(m[2])}${phoneLink(m[3], color)}` : link;
+  };
+
   const smuggler_signatureHTML = `
 <table role="presentation" cellpadding="0" cellspacing="0" border="0"
   style="margin:0; padding:0; border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; font-family:Arial, Helvetica, sans-serif;">
@@ -148,7 +160,7 @@ function App() {
   <tr>
     <td style="padding-top:2px; padding-bottom:0;">
       <span style="color:#A28D6F; font-size:8px; font-weight:700; font-family:Arial, Helvetica, sans-serif;">
-        MOBILE ${escapeHtml(phone)}
+        MOBILE ${phoneLink(phone, "#A28D6F")}
       </span>
     </td>
   </tr>
@@ -159,7 +171,7 @@ function App() {
       ${smugglerAddresses.filter(item => !item.hidden).map(item => `
         <span style="color:#A28D6F; font-size:8px; font-weight:600; text-transform:uppercase; font-family:Arial, Helvetica, sans-serif; display:block; line-height:11px;">
           <span style="color:#A28D6F;">${escapeHtml(item.city)} </span>
-          <span style="color:#C7BBA9;">${escapeHtml(item.text)}</span>
+          <span style="color:#C7BBA9;">${addressLink(item.text, "#C7BBA9")}</span>
         </span>
       `).join('')}
     </td>
@@ -225,7 +237,7 @@ function App() {
   </tr>` : ''}
   ${showPhoneNumber ? `<tr>
     <td style="font-family: Helvetica, Arial, sans-serif; font-size: 8px; line-height: 10px; padding: 4px 0;">
-      MOBILE ${escapeHtml(phone)}
+      MOBILE ${phoneLink(phone, "#000000")}
     </td>
   </tr>` : ''}
   <tr>
@@ -267,7 +279,7 @@ function App() {
   </tr>` : ''}
   ${showPhoneNumber ? `<tr>
     <td style="font-family: Helvetica, Arial, sans-serif; font-size: 10px; color: rgb(172, 79, 58); line-height: 12px; padding-bottom: 8px;">
-      ${escapeHtml(phone)} m
+      ${phoneLink(phone, "rgb(172, 79, 58)")} m
     </td>
   </tr>` : ''}
   ${showAddresses ? `
@@ -279,7 +291,7 @@ function App() {
         </tr>
         ${d7Addresses.filter(item => !item.hidden).map(item => `<tr>
           <td style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: rgb(172, 79, 58); line-height: 12px; padding-bottom: 4px;">
-            ${escapeHtml(item.text)}
+            ${addressLink(item.text, "rgb(172, 79, 58)")}
           </td>
         </tr>`).join('')}
         <tr>
@@ -340,7 +352,7 @@ function App() {
   </tr>` : ''}
   ${showPhoneNumber ? `<tr>
     <td style="font-family: Arial, Helvetica, sans-serif; font-size: 10px; line-height: 14px; padding: 12px 0 0 0; color: #000000;">
-      MOBILE: ${escapeHtml(phone)}
+      MOBILE: ${phoneLink(phone, "#000000")}
     </td>
   </tr>` : ''}
   ${showLinks ? `
